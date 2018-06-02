@@ -1,8 +1,7 @@
-package organizer.model;
+package JavaOrganizer.model;
 
-import java.util.ArrayList;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Calendar {

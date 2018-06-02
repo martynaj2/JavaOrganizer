@@ -1,4 +1,4 @@
-package organizer.model;
+package JavaOrganizer.model;
 
 import java.time.LocalDateTime;
 
