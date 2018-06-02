@@ -22,7 +22,7 @@ public class AboutDialog extends JDialog
 	 */
 	public AboutDialog() {
 		setTitle("About");
-		setBounds(300, 250, 450, 281);
+		setBounds(400, 250, 450, 281);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
