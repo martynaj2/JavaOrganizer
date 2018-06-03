@@ -44,8 +44,9 @@ public class CalendarWindow
 		getFrame().setSize(1100, 600);
 		getFrame().setResizable(false);
 		
-		
+		//******************************************************************
 		// MENU BAR
+		//******************************************************************
 		JMenuBar menuBar = new JMenuBar();
 		getFrame().setJMenuBar(menuBar);
 		
@@ -61,8 +62,9 @@ public class CalendarWindow
 		JMenu mnAbout= new JMenu("About");
 		menuBar.add(mnAbout);
 		
-		
-		//OPTIONS FOR IMPORT----------------------------------------
+		//******************************************************************
+		//OPTIONS FOR IMPORT/EXPORT
+		//******************************************************************
 		JMenuItem mnImportFromDB = new JMenuItem("ImportFromDB");
 		JMenuItem mnExportToDB = new JMenuItem("ExportToDB");
 		JMenuItem mnImportFromXML = new JMenuItem("ImportFromXML");
@@ -122,8 +124,10 @@ public class CalendarWindow
 						
 					}
 				});
-				
-		//OPTION FOR ABOUT------------------------------------------
+		
+		//******************************************************************
+		//OPTION FOR ABOUT
+		//******************************************************************
 		JMenuItem mnAboutPro = new JMenuItem("About the program");
 		mnAbout.add(mnAboutPro);
 		
@@ -135,6 +139,20 @@ public class CalendarWindow
 			}
 		});
 		
+		
+		//******************************************************************
+		//OPTION FOR EVENT
+		//******************************************************************
+		JMenuItem mnNewEvent = new JMenuItem("Add new event");
+		mnEvent.add(mnNewEvent);
+		
+		//ACTION FOR EVENT BUTTON
+		mnNewEvent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				NewEventDialog newEventDialog = new NewEventDialog();
+				newEventDialog.setVisible(true);
+			}
+		});
 		
 		
 		
