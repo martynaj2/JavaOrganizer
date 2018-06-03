@@ -7,11 +7,14 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
+import JavaOrganizer.controller.CalendarManager;
 
 public class CalendarWindow
 {
 	private JFrame frame;
-	
+	private CalendarManager calManager;
 
 	public JFrame getFrame() {
 		return frame;
@@ -26,6 +29,10 @@ public class CalendarWindow
 	{
 		
 		// i guess load managers for controllers
+		//calManager = CalendarManager.getInstance();
+		
+		calManager = new CalendarManager();
+		
 		initialize();
 	}
 	
@@ -55,7 +62,7 @@ public class CalendarWindow
 		menuBar.add(mnAbout);
 		
 		
-		//OPTIONS FOR IMPORT
+		//OPTIONS FOR IMPORT----------------------------------------
 		JMenuItem mnImportFromDB = new JMenuItem("ImportFromDB");
 		JMenuItem mnExportToDB = new JMenuItem("ExportToDB");
 		JMenuItem mnImportFromXML = new JMenuItem("ImportFromXML");
@@ -67,7 +74,56 @@ public class CalendarWindow
 		mnExport.add(mnImportFromXML);
 		mnExport.add(mnImportToXML);
 		
-		//OPTION FOR ABOUT		
+		//ACTION FOR IMPORT DB
+			mnImportFromDB.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					//try catch
+					calManager.importDB();
+					//refresh LIST
+					JOptionPane.showMessageDialog(null, "Calendar imported (DB).");
+					
+				}
+			});
+				
+				
+		//ACTION FOR IMPORT XML
+			mnImportFromXML.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+						//try catch
+						calManager.importXML();
+						//refresh LIST
+						JOptionPane.showMessageDialog(null, "Calendar imported (XML).");
+					}
+				});
+		
+		//ACTION FOR EXPOPRT DB
+				mnExportToDB.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+						//try catch
+						calManager.exportDB();
+						//refresh LIST
+						JOptionPane.showMessageDialog(null, "Calendar exported (DB).");
+						
+					}
+				});
+		
+				
+		//ACTION FOR EXPORT XML
+				mnImportToXML.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+						//try catch
+						calManager.exportXML();
+						//refresh LIST
+						JOptionPane.showMessageDialog(null, "Calendar exported (XML).");
+						
+					}
+				});
+				
+		//OPTION FOR ABOUT------------------------------------------
 		JMenuItem mnAboutPro = new JMenuItem("About the program");
 		mnAbout.add(mnAboutPro);
 		
@@ -78,6 +134,10 @@ public class CalendarWindow
 				aboutDialog.setVisible(true);
 			}
 		});
+		
+		
+		
+		
 		
 	}
 	
