@@ -28,10 +28,8 @@ public class CalendarWindow
 	public CalendarWindow()
 	{
 		
-		// i guess load managers for controllers
-		//calManager = CalendarManager.getInstance();
-		
-		calManager = new CalendarManager();
+		// i guess load managers for controllers		
+		calManager = CalendarManager.getInstance();
 		
 		initialize();
 	}

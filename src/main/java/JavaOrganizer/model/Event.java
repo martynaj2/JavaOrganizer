@@ -2,13 +2,16 @@ package JavaOrganizer.model;
 
 import java.time.LocalDateTime;
 
-public class Event {
+public class Event implements Comparable<Event> {
 	private String m_title;
 	private String m_description;
 	private String m_location;
 	private LocalDateTime m_startingDate;
 	private LocalDateTime m_endingDate;
+	private long m_Id;
 	
+
+
 	public Event(String title, String descr, String loc,
 			LocalDateTime startDate, LocalDateTime endDate) {
 		this.setTitle(title);
@@ -18,10 +21,32 @@ public class Event {
 		this.setEndingDate(endDate);
 	}
 
+	
+	
+	public Event(long id,String title, String descr, String loc,
+			LocalDateTime startDate, LocalDateTime endDate) {
+		this.setM_Id(id);
+		this.setTitle(title);
+		this.setDescription(descr);
+		this.setLocation(loc);
+		this.setStartingDate(startDate);
+		this.setEndingDate(endDate);
+	}
+	
+	
 	public String convertToOutlookFormat()
 	{
 		return "";
 	}
+	
+	
+	
+	public Event clone() {
+		return new Event(getM_Id(), getTitle(), getDescription(),
+				getLocation(), getStartingDate(), getEndingDate());
+	}
+	
+	
 	
 	// ************************* GETTERY I SETTERY  *************************
 	public String getTitle() {
@@ -63,4 +88,20 @@ public class Event {
 	private void setLocation(String m_location) {
 		this.m_location = m_location;
 	}
+	
+	public long getM_Id() {
+		return m_Id;
+	}
+
+	public void setM_Id(long m_Id) {
+		this.m_Id = m_Id;
+	}
+
+
+
+	public int compareTo(Event o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
 }

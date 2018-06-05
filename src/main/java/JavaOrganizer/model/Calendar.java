@@ -7,6 +7,7 @@ import java.util.List;
 public class Calendar {
 	private List<Event> events;
 	
+	
 	public Calendar() {
 		this.events = new ArrayList<Event>();
 		System.out.println("Utworzono obiekt kalendarza");
@@ -17,6 +18,9 @@ public class Calendar {
 		System.out.println("Dodano do kalendarza wydarzenie " + ev.getTitle());
 	}
 	
+	
+	
+	
 	public List<Event> getEventsFromDay(LocalDate day) {
 		List<Event> chosenEvents = new ArrayList<Event>();
 		for(Event ev : events) {
@@ -25,5 +29,9 @@ public class Calendar {
 			}
 		}
 		return chosenEvents;
+	}
+
+	public List<Event> getEventsList() {
+		return events;
 	}
 }
