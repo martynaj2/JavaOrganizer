@@ -29,14 +29,11 @@ public class CalendarWindow
 	// Widgety
 	private JFrame frame;
 	private JMenuBar menuBar;
-	private JLabel currentDateTimeLabel = new JLabel("");
-	private JLabel calendarMonthYearLabel = new JLabel("");
-	private List<JLabel> calendarTiles = new ArrayList<JLabel>();
+	private EventsPanel eventsPanel;
+	private CalendarPanel calendarPanel;
 	
 	// Inne
 	private CalendarManager calManager;
-	private int currentCalendarMonth = LocalDateTime.now().getMonthValue();
-	private int currentCalendarYear = LocalDateTime.now().getYear();
 	
 	//! Inicjalizuje pola klasy
 	//! Tworzy okno, ustala jego wymiary i inne wlasciwosci
@@ -52,9 +49,12 @@ public class CalendarWindow
 		getFrame().setResizable(false);
 		
 		initializeMenuBar();
-		showCurrentDateTime();
-		showCalendar();
-		showCalendarTiles();
+		
+		calendarPanel = new CalendarPanel(calManager);
+		calendarPanel.setBounds(10, 10, 500, 580);
+		getFrame().add(calendarPanel);
+		
+		calendarPanel.showPanel();
 	}
 	
 	//! Tworzy menu i jego zawartosc.
@@ -164,91 +164,6 @@ public class CalendarWindow
 				newEventDialog.setVisible(true);
 			}
 		});	
-	}
-	
-	//! Wyswietla informacje kalendarza
-	//! (aktualny miesiac/rok, przyciski do nawigacji
-	private void showCalendar() {
-		calendarMonthYearLabel.setBounds(200, 100, 200, 25);
-		calendarMonthYearLabel.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-		getFrame().add(calendarMonthYearLabel);
-		
-		JButton prevMonthButton = new JButton("Poprzedni");
-		prevMonthButton.setBounds(75, 100, 100, 25);
-		prevMonthButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	currentCalendarMonth -= 1;
-                if(currentCalendarMonth < 1) {
-                	currentCalendarYear -= 1;
-                	currentCalendarMonth = 12;
-                }
-                showCalendarTiles();
-                
-            }
-        });
-		getFrame().add(prevMonthButton);
-		
-		JButton nextMonthButton = new JButton("Następny");
-		nextMonthButton.setBounds(300, 100, 100, 25);
-		nextMonthButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	currentCalendarMonth += 1;
-                if(currentCalendarMonth > 12) {
-                	currentCalendarYear += 1;
-                	currentCalendarMonth = 1;
-                }
-                showCalendarTiles();
-                
-            }
-        });
-		getFrame().add(nextMonthButton);
-	}
-	
-	//! Wyswietla kafelki kalendarza
-	private void showCalendarTiles() {
-		int daysInMonth = calManager.getNumberOfDays(currentCalendarMonth, currentCalendarYear);
-		LocalDate calendarDate = LocalDate.of(currentCalendarYear, currentCalendarMonth, 1);
-		calendarMonthYearLabel.setText(calendarDate.format(DateTimeFormatter.ofPattern("MM-yyyy")));
-		
-		// Wyswietlanie kafelkow kalendarza
-		System.out.println("Wyswietlam kafelki kalendarza dla " + calendarDate.toString());
-		
-		for(JLabel tileLabel : calendarTiles) {
-			getFrame().remove(tileLabel);
-		}
-		calendarTiles.clear();
-		getFrame().revalidate();
-		getFrame().repaint();
-		
-		int yPosition = 175;
-		for(int i=0; i<daysInMonth; ++i) {
-			JLabel tile = new JLabel("" + calendarDate.getDayOfMonth(), SwingConstants.CENTER);
-			int xPosition = 30 + ((calendarDate.getDayOfWeek().getValue() - 1) * 60); // 0 - Monday, 6 - Sunday
-			tile.setBounds(xPosition, yPosition, 50, 50);
-			tile.setBorder(BorderFactory.createLineBorder(Color.black));
-			if(calendarDate.getDayOfWeek() == DayOfWeek.SUNDAY)
-				yPosition += 60;
-			getFrame().add(tile);
-			calendarTiles.add(tile);
-			calendarDate = calendarDate.plusDays(1);
-		}
-	}
-	
-	//! Wyswietla aktualna date i czas.
-	//! Odwieza zegar automatycznie co 1000ms
-	private void showCurrentDateTime() {
-		currentDateTimeLabel.setBounds(20, 20, 400, 20);
-		currentDateTimeLabel.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-		frame.add(currentDateTimeLabel);
-		
-		ActionListener taskPerformer = new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				LocalDateTime dateTime = LocalDateTime.now();
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-				currentDateTimeLabel.setText("Aktualna data: " + dateTime.format(formatter));
-			}
-		};
-		new Timer(1000, taskPerformer).start();
 	}
 	
 	public JFrame getFrame() {
