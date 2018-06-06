@@ -32,7 +32,7 @@ public class AboutDialog extends JDialog
 			lblInteractiveCalendarOrganizer.setHorizontalAlignment(SwingConstants.CENTER);
 			contentPanel.add(lblInteractiveCalendarOrganizer, BorderLayout.NORTH);
 	
-			JLabel lblCopyright = new JLabel("<html>Martyna Jasiak 203   <br>Piotr Olszewski 203957</html>");
+			JLabel lblCopyright = new JLabel("<html>Martyna Jasiak 203892   <br>Piotr Olszewski 203957</html>");
 			lblCopyright.setHorizontalAlignment(SwingConstants.CENTER);
 			contentPanel.add(lblCopyright, BorderLayout.CENTER);
 		

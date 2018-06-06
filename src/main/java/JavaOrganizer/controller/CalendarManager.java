@@ -11,14 +11,13 @@ public class CalendarManager {
 	private static CalendarManager instance = null;
 	
 	
-	
 	//conctructor for calendar manager
 	protected CalendarManager() {
 		mCalendar = new Calendar();
 	}
 	
 	
-	//instance for manager - singelton model = 1 instane in program
+	//instance for manager 
 	public static CalendarManager getInstance() {
 		if(instance == null)
 			instance = new CalendarManager();

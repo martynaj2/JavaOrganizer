@@ -20,17 +20,13 @@ public class CalendarWindow
 		return frame;
 	}
 
-
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
 	}
 	
 	public CalendarWindow()
 	{
-		
-		// i guess load managers for controllers		
-		calManager = CalendarManager.getInstance();
-		
+		calManager = CalendarManager.getInstance();	
 		initialize();
 	}
 	
