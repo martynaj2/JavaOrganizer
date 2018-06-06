@@ -43,17 +43,6 @@ public class Calendar {
 		System.out.println("Dodano do kalendarza wydarzenie " + ev.getTitle());
 	}
 	
-	//! Zwraca liste eventow w kalendarzu ktore maja ustawiona taka sama date jak `day`
-	public List<Event> getEventsFromDay(LocalDate day) {
-		List<Event> chosenEvents = new ArrayList<Event>();
-		for(Event ev : events) {
-			if(ev.getStartingDate().toLocalDate() == day) {
-				chosenEvents.add(ev);
-			}
-		}
-		return chosenEvents;
-	}
-
 	//! Zwraca liste wszystkich eventow
 	public List<Event> getEventsList() {
 		return events;

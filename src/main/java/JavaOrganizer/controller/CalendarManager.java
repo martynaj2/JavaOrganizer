@@ -1,7 +1,10 @@
 package JavaOrganizer.controller;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+
 import JavaOrganizer.model.Calendar;
 import JavaOrganizer.model.Event;
 
@@ -22,6 +25,16 @@ public class CalendarManager {
 		return instance;
 	}
 	
+	//! Zwraca liste eventow w kalendarzu ktore maja ustawiona taka sama date jak `day`
+	public List<Event> getEventsFromDay(LocalDate day) {
+		List<Event> chosenEvents = new ArrayList<Event>();
+		for(Event ev : mCalendar.getEventsList()) {
+			if(ev.getStartingDate().toLocalDate() == day) {
+				chosenEvents.add(ev);
+			}
+		}
+		return chosenEvents;
+	}	
 	
 	//! Metoda statyczna, nie potrzebuje obiektu Calendar do wywolania
 	//! Zwraca ilosc dni w miesiacu na podstawie numeru miesiaca i roku
