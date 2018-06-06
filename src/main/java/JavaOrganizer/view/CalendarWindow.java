@@ -1,36 +1,24 @@
 package JavaOrganizer.view;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import javax.swing.Timer;
 
 import JavaOrganizer.controller.CalendarManager;
 
-public class CalendarWindow
+@SuppressWarnings("serial")
+public class CalendarWindow extends JFrame
 {
 	// Widgety
-	private JFrame frame;
 	private JMenuBar menuBar;
-	private EventsPanel eventsPanel;
-	private CalendarPanel calendarPanel;
+	public EventsPanel eventsPanel;
+	public CalendarPanel calendarPanel;
 	
 	// Inne
 	private CalendarManager calManager;
@@ -41,20 +29,25 @@ public class CalendarWindow
 	{
 		calManager = CalendarManager.getInstance();	
 		
-		setFrame(new JFrame());
-		getFrame().setBounds(100, 100, 1000, 600);
-		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getFrame().setSize(1100, 600);
-		getFrame().setLayout(null);
-		getFrame().setResizable(false);
+		setBounds(100, 100, 1000, 600);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(1100, 600);
+		setLayout(null);
+		setResizable(false);
+		getContentPane().setBackground(new Color(240, 240, 240));
 		
 		initializeMenuBar();
 		
 		calendarPanel = new CalendarPanel(calManager);
-		calendarPanel.setBounds(10, 10, 500, 580);
-		getFrame().add(calendarPanel);
+		calendarPanel.setBounds(10, 10, 500, 530);
+		add(calendarPanel);
+		
+		eventsPanel = new EventsPanel(calManager);
+		eventsPanel.setBounds(530, 10, 550, 530);
+		add(eventsPanel);
 		
 		calendarPanel.showPanel();
+		eventsPanel.showPanel();
 	}
 	
 	//! Tworzy menu i jego zawartosc.
@@ -62,7 +55,7 @@ public class CalendarWindow
 	private void initializeMenuBar()
 	{
 		menuBar = new JMenuBar();
-		getFrame().setJMenuBar(menuBar);
+		setJMenuBar(menuBar);
 		
 		JMenu mnEvent = new JMenu("Event");
 		menuBar.add(mnEvent);
@@ -164,13 +157,5 @@ public class CalendarWindow
 				newEventDialog.setVisible(true);
 			}
 		});	
-	}
-	
-	public JFrame getFrame() {
-		return frame;
-	}
-
-	public void setFrame(JFrame frame) {
-		this.frame = frame;
 	}
 }

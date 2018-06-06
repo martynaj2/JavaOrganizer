@@ -20,8 +20,8 @@ public class Main
 		EventQueue.invokeLater(new Runnable(){
 			public void run(){
 				CalendarWindow calendarWindow = new CalendarWindow();
-				calendarWindow.getFrame().setTitle("Java Organizer");
-				calendarWindow.getFrame().setVisible(true);
+				calendarWindow.setTitle("Java Organizer");
+				calendarWindow.setVisible(true);
 			}
 		});
 	}

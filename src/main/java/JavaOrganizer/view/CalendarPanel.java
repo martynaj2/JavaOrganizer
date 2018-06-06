@@ -1,9 +1,12 @@
 package JavaOrganizer.view;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,9 +16,11 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import JavaOrganizer.controller.CalendarManager;
@@ -39,6 +44,8 @@ public class CalendarPanel extends JPanel {
 		this.calManager = manager;
 		
 		setLayout(null);
+		setBackground(new Color(254, 254, 254));
+		setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 	}
 	
 	//! Pokazuje elementy panelu
@@ -108,6 +115,18 @@ public class CalendarPanel extends JPanel {
 			int xPosition = 30 + ((calendarDate.getDayOfWeek().getValue() - 1) * 60); // 0 - Monday, 6 - Sunday
 			tile.setBounds(xPosition, yPosition, 50, 50);
 			tile.setBorder(BorderFactory.createLineBorder(Color.black));
+			tile.setCursor(Cursor.getDefaultCursor());
+			if(calendarDate.isEqual(LocalDate.now())) {
+				tile.setOpaque(true);
+				tile.setBackground(new Color(116, 196, 237));
+			}
+			final LocalDate labelDate = calendarDate;
+			final CalendarWindow topFrame = (CalendarWindow) SwingUtilities.getWindowAncestor(this);
+			tile.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					topFrame.eventsPanel.showEventsFromDay(labelDate);
+				}
+			});
 			if(calendarDate.getDayOfWeek() == DayOfWeek.SUNDAY)
 				yPosition += 60;
 			add(tile);
