@@ -1,47 +1,62 @@
 package JavaOrganizer.view;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.Timer;
 
 import JavaOrganizer.controller.CalendarManager;
 
 public class CalendarWindow
 {
+	// Widgety
 	private JFrame frame;
-	private CalendarManager calManager;
-
-	public JFrame getFrame() {
-		return frame;
-	}
-
-	public void setFrame(JFrame frame) {
-		this.frame = frame;
-	}
+	private JMenuBar menuBar;
+	private JLabel currentDateTimeLabel = new JLabel("");
+	private JLabel calendarTiles[];
 	
+	// Inne
+	private CalendarManager calManager;
+	private int currentCalendarMonth = LocalDateTime.now().getMonthValue();
+	private int currentCalendarYear = LocalDateTime.now().getYear();
+	
+	//! Inicjalizuje pola klasy
+	//! Tworzy okno, ustala jego wymiary i inne wlasciwosci
 	public CalendarWindow()
 	{
 		calManager = CalendarManager.getInstance();	
-		initialize();
-	}
-	
-	private void initialize()
-	{
+		
 		setFrame(new JFrame());
 		getFrame().setBounds(100, 100, 1000, 600);
 		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrame().setSize(1100, 600);
+		getFrame().setLayout(null);
 		getFrame().setResizable(false);
 		
-		//******************************************************************
-		// MENU BAR
-		//******************************************************************
-		JMenuBar menuBar = new JMenuBar();
+		initializeMenuBar();
+		showCurrentDateTime();
+		showCalendarTiles();
+	}
+	
+	//! Tworzy menu i jego zawartosc.
+	//! Podpina eventy do poszczegolnych elementow menu
+	private void initializeMenuBar()
+	{
+		menuBar = new JMenuBar();
 		getFrame().setJMenuBar(menuBar);
 		
 		JMenu mnEvent = new JMenu("Event");
@@ -73,15 +88,12 @@ public class CalendarWindow
 		//ACTION FOR IMPORT DB
 			mnImportFromDB.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
 					//try catch
 					calManager.importDB();
 					//refresh LIST
 					JOptionPane.showMessageDialog(null, "Calendar imported (DB).");
-					
 				}
 			});
-				
 				
 		//ACTION FOR IMPORT XML
 			mnImportFromXML.addActionListener(new ActionListener() {
@@ -146,13 +158,53 @@ public class CalendarWindow
 				NewEventDialog newEventDialog = new NewEventDialog();
 				newEventDialog.setVisible(true);
 			}
-		});
-		
-		
-		
-		
+		});	
 	}
 	
+	//! Wyswietla kafelki kalendarza
+	private void showCalendarTiles() {
+		int daysInMonth = calManager.getNumberOfDays(currentCalendarMonth, currentCalendarYear);
+		LocalDate calendarDate = LocalDate.of(currentCalendarYear, currentCalendarMonth, 1);
+
+		JLabel calendarMonthYearLabel = new JLabel(calendarDate.format(DateTimeFormatter.ofPattern("MM-yyyy")));
+		calendarMonthYearLabel.setBounds(200, 100, 200, 25);
+		calendarMonthYearLabel.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+		getFrame().add(calendarMonthYearLabel);
+		
+		calendarTiles = new JLabel[daysInMonth];
+		int yPosition = 200;
+		for(int i=0; i<daysInMonth; ++i) {
+			calendarTiles[i] = new JLabel("" + calendarDate.getDayOfMonth(), SwingConstants.CENTER);
+			int xPosition = 30 + ((calendarDate.getDayOfWeek().getValue() - 1) * 60); // 0 - Monday, 6 - Sunday
+			calendarTiles[i].setBounds(xPosition, yPosition, 50, 50);
+			calendarTiles[i].setBorder(BorderFactory.createLineBorder(Color.black));
+			if(calendarDate.getDayOfWeek() == DayOfWeek.SUNDAY)
+				yPosition += 60;
+			getFrame().add(calendarTiles[i]);
+			calendarDate = calendarDate.plusDays(1);
+		}
+	}
 	
+	private void showCurrentDateTime() {
+		currentDateTimeLabel.setBounds(20, 20, 400, 20);
+		currentDateTimeLabel.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+		frame.add(currentDateTimeLabel);
+		
+		ActionListener taskPerformer = new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				LocalDateTime dateTime = LocalDateTime.now();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+				currentDateTimeLabel.setText("Aktualna data: " + dateTime.format(formatter));
+			}
+		};
+		new Timer(1000, taskPerformer).start();
+	}
 	
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
 }
