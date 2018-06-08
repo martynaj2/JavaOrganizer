@@ -1,6 +1,11 @@
 package JavaOrganizer.app;
 
 import java.awt.EventQueue;
+import java.sql.DriverManager;
+
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import JavaOrganizer.view.CalendarWindow;
 
@@ -17,6 +22,27 @@ public class Main
 	}
 	
 	public static void setupUI(){
+		
+		//TEST DB connection
+		try {
+			Class.forName("com.mysql.jdbc.Driver"); // load JDBC driver	
+		
+			Connection conn = null;
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/kompo_db?useUnicode=true&"
+					+ "useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&"
+					+ "serverTimezone=UTC", "root", "gate33");
+			System.out.println("Connected to database");
+			conn.close();
+		}
+		catch(Exception e) {
+			System.out.println("Could not connect to DB: " + e);
+		}
+		
+		
+		
+		
+		
 		EventQueue.invokeLater(new Runnable(){
 			public void run(){
 				CalendarWindow calendarWindow = new CalendarWindow();
