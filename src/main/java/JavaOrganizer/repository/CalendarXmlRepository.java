@@ -5,12 +5,15 @@ import JavaOrganizer.model.Calendar;
 
 public class CalendarXmlRepository implements CalendarRepository{
 
-	public CalendarXmlRepository(Calendar calendar) {
+	private Calendar mCalendar;
+	
+	public CalendarXmlRepository(Calendar calendar)
+	{
 		super();
 		this.mCalendar = calendar;
 	}
 
-	private Calendar mCalendar;
+	
 	
 	public void importObjects() throws RepositoryException
 	{

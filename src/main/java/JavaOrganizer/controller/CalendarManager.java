@@ -78,6 +78,8 @@ public class CalendarManager {
 	//***********************************************************
 	// EXPORT/ IMPORT METHODS
 	//***********************************************************
+	
+	//JDBC PART
 	public void importDB() throws RepositoryException
 	{
 		CalendarJdbcRepository repository = new CalendarJdbcRepository(mCalendar);
@@ -87,15 +89,6 @@ public class CalendarManager {
 		System.out.println("imported from DB");
 	}
 	
-	public void importXML() throws RepositoryException
-	{
-		CalendarXmlRepository repository = new CalendarXmlRepository(mCalendar);
-		
-		repository.importObjects();		
-		
-		System.out.println("imported from XML");
-	}
-	
 	public void exportDB() throws RepositoryException
 	{
 		CalendarJdbcRepository repository = new CalendarJdbcRepository(mCalendar);
@@ -103,6 +96,17 @@ public class CalendarManager {
 		repository.exportObjects();
 			
 		System.out.println("exported to DB");
+	}
+	
+	
+	// XML PART
+	public void importXML() throws RepositoryException
+	{
+		CalendarXmlRepository repository = new CalendarXmlRepository(mCalendar);
+		
+		repository.importObjects();		
+		
+		System.out.println("imported from XML");
 	}
 	
 	public void exportXML() throws RepositoryException

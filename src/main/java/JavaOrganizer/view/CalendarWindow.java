@@ -95,7 +95,6 @@ public class CalendarWindow extends JFrame
 					}
 					catch(RepositoryException e1)
 					{
-						e1.printStackTrace();
 						System.out.println("Error");
 					}
 					
@@ -117,7 +116,6 @@ public class CalendarWindow extends JFrame
 							calManager.importXML();
 						} catch (RepositoryException e1) {
 							// TODO Auto-generated catch block
-							e1.printStackTrace();
 							System.out.println("Error");
 						}
 						//refresh LIST
@@ -137,7 +135,6 @@ public class CalendarWindow extends JFrame
 							calManager.exportDB();
 						} catch (RepositoryException e1) {
 							// TODO Auto-generated catch block
-							e1.printStackTrace();
 							System.out.println("Error");
 						}
 						//refresh LIST
@@ -158,7 +155,6 @@ public class CalendarWindow extends JFrame
 							calManager.exportXML();
 						} catch (RepositoryException e1) {
 							// TODO Auto-generated catch block
-							e1.printStackTrace();
 							System.out.println("Error");
 						}
 						//refresh LIST
