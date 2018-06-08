@@ -76,34 +76,31 @@ public class CalendarWindow extends JFrame
 		JMenuItem mnImportFromDB = new JMenuItem("ImportFromDB");
 		JMenuItem mnExportToDB = new JMenuItem("ExportToDB");
 		JMenuItem mnImportFromXML = new JMenuItem("ImportFromXML");
-		JMenuItem mnImportToXML = new JMenuItem("ImportToXML");
+		JMenuItem mnExportToXML = new JMenuItem("ExportToXML");
 		
 		mnExport.add(mnImportFromDB);
 		mnExport.add(mnExportToDB);
 		mnExport.addSeparator();
 		mnExport.add(mnImportFromXML);
-		mnExport.add(mnImportToXML);
+		mnExport.add(mnExportToXML);
 		
 		//ACTION FOR IMPORT DB
 			mnImportFromDB.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					//try catch
 					
 					try
 					{
 						calManager.importDB();
+						//UPDATE CALENDAR WINDOW
+						JOptionPane.showMessageDialog(null, "Calendar imported (DB).");
 					}
 					catch(RepositoryException e1)
 					{
-						System.out.println("Error");
+						JOptionPane.showMessageDialog(null, "**ERROR** Calendar imported (DB).", "Error", JOptionPane.ERROR_MESSAGE);
 					}
+
 					
-					
-					//refresh LIST
-					
-					
-					
-					JOptionPane.showMessageDialog(null, "Calendar imported (DB).");
+
 				}
 			});
 				
@@ -111,18 +108,17 @@ public class CalendarWindow extends JFrame
 			mnImportFromXML.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
-						//try catch
-						try {
+						try
+						{
 							calManager.importXML();
-						} catch (RepositoryException e1) {
-							// TODO Auto-generated catch block
-							System.out.println("Error");
+							//UPDATE CALENDAR WINDOW
+							JOptionPane.showMessageDialog(null, "Calendar imported (XML).");
 						}
-						//refresh LIST
+						catch (RepositoryException e1) {
+							JOptionPane.showMessageDialog(null, "**ERROR** Calendar imported (XML).", "Error", JOptionPane.ERROR_MESSAGE);
+						}
+		
 						
-						
-						
-						JOptionPane.showMessageDialog(null, "Calendar imported (XML).");
 					}
 				});
 		
@@ -130,38 +126,36 @@ public class CalendarWindow extends JFrame
 				mnExportToDB.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
-						//try catch
-						try {
+						try
+						{
 							calManager.exportDB();
-						} catch (RepositoryException e1) {
-							// TODO Auto-generated catch block
-							System.out.println("Error");
+							JOptionPane.showMessageDialog(null, "Calendar exported (DB).");	
 						}
-						//refresh LIST
+						catch (RepositoryException e1)
+						{
+							JOptionPane.showMessageDialog(null, "**ERROR** Calendar exported (XML).", "Error", JOptionPane.ERROR_MESSAGE);
+						}						
 						
 						
-						
-						JOptionPane.showMessageDialog(null, "Calendar exported (DB).");						
 					}
 				});
 		
 				
 		//ACTION FOR EXPORT XML
-				mnImportToXML.addActionListener(new ActionListener() {
+				mnExportToXML.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
-						//try catch
-						try {
-							calManager.exportXML();
-						} catch (RepositoryException e1) {
-							// TODO Auto-generated catch block
-							System.out.println("Error");
+						try
+						{
+							calManager.exportXML();								
+							JOptionPane.showMessageDialog(null, "Calendar exported (XML).");
 						}
-						//refresh LIST
+						catch (RepositoryException e1)
+						{
+							JOptionPane.showMessageDialog(null, "**ERROR** Calendar exported (XML).", "Error", JOptionPane.ERROR_MESSAGE);
+						}
 						
-						
-						
-						JOptionPane.showMessageDialog(null, "Calendar exported (XML).");						
+									
 					}
 				});
 		
