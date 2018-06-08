@@ -8,29 +8,32 @@ public class Event implements Comparable<Event> {
 	private String m_location;
 	private LocalDateTime m_startingDate;
 	private LocalDateTime m_endingDate;
+	private LocalDateTime m_remindDate;
 	private long m_Id;
 	
 
 
 	public Event(String title, String descr, String loc,
-			LocalDateTime startDate, LocalDateTime endDate) {
+			LocalDateTime startDate, LocalDateTime endDate, LocalDateTime remindTime) {
 		this.setTitle(title);
 		this.setDescription(descr);
 		this.setLocation(loc);
 		this.setStartingDate(startDate);
 		this.setEndingDate(endDate);
+		this.setRemindDate(remindTime);
 	}
 
 	
 	
 	public Event(long id,String title, String descr, String loc,
-			LocalDateTime startDate, LocalDateTime endDate) {
+			LocalDateTime startDate, LocalDateTime endDate, LocalDateTime remindTime) {
 		this.setM_Id(id);
 		this.setTitle(title);
 		this.setDescription(descr);
 		this.setLocation(loc);
 		this.setStartingDate(startDate);
 		this.setEndingDate(endDate);
+		this.setRemindDate(remindTime);
 	}
 	
 	
@@ -43,7 +46,7 @@ public class Event implements Comparable<Event> {
 	
 	public Event clone() {
 		return new Event(getM_Id(), getTitle(), getDescription(),
-				getLocation(), getStartingDate(), getEndingDate());
+				getLocation(), getStartingDate(), getEndingDate(), getRemindDate());
 	}
 	
 	
@@ -97,11 +100,23 @@ public class Event implements Comparable<Event> {
 		this.m_Id = m_Id;
 	}
 
+	public LocalDateTime getRemindDate() {
+		return m_remindDate;
+	}
 
 
+	public void setRemindDate(LocalDateTime m_remindDate) {
+		this.m_remindDate = m_remindDate;
+	}
+
+		
 	public int compareTo(Event o) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+
+
+
 	
 }
