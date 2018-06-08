@@ -7,6 +7,7 @@ import java.util.List;
 
 import JavaOrganizer.model.Calendar;
 import JavaOrganizer.model.Event;
+import JavaOrganizer.repository.CalendarJdbcRepository;
 
 public class CalendarManager {
 
@@ -55,8 +56,8 @@ public class CalendarManager {
 	// add new event as conctructor
 	
 	public void addNewEvent(String title, String description, String location,
-			LocalDateTime start, LocalDateTime end) {
-		mCalendar.addEvent(new Event(title, description, location, start, end));
+			LocalDateTime start, LocalDateTime end, LocalDateTime remind) {
+		mCalendar.addEvent(new Event(title, description, location, start, end, remind));
 	}
 	
 	
@@ -77,6 +78,10 @@ public class CalendarManager {
 	//***********************************************************
 	public void importDB()
 	{
+		CalendarJdbcRepository repository = new CalendarJdbcRepository(mCalendar);
+		
+		repository.exportObjects();
+		
 		System.out.println("imported from DB");
 	}
 	

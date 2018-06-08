@@ -89,6 +89,9 @@ public class CalendarWindow extends JFrame
 					//try catch
 					calManager.importDB();
 					//refresh LIST
+					
+					
+					
 					JOptionPane.showMessageDialog(null, "Calendar imported (DB).");
 				}
 			});
@@ -100,6 +103,9 @@ public class CalendarWindow extends JFrame
 						//try catch
 						calManager.importXML();
 						//refresh LIST
+						
+						
+						
 						JOptionPane.showMessageDialog(null, "Calendar imported (XML).");
 					}
 				});
@@ -111,8 +117,10 @@ public class CalendarWindow extends JFrame
 						//try catch
 						calManager.exportDB();
 						//refresh LIST
-						JOptionPane.showMessageDialog(null, "Calendar exported (DB).");
 						
+						
+						
+						JOptionPane.showMessageDialog(null, "Calendar exported (DB).");						
 					}
 				});
 		
@@ -124,8 +132,10 @@ public class CalendarWindow extends JFrame
 						//try catch
 						calManager.exportXML();
 						//refresh LIST
-						JOptionPane.showMessageDialog(null, "Calendar exported (XML).");
 						
+						
+						
+						JOptionPane.showMessageDialog(null, "Calendar exported (XML).");						
 					}
 				});
 		
