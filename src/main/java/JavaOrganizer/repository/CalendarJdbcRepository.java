@@ -1,5 +1,6 @@
 package JavaOrganizer.repository;
 
+import JavaOrganizer.exception.RepositoryException;
 import JavaOrganizer.model.Calendar;
 
 public class CalendarJdbcRepository implements CalendarRepository {
@@ -8,11 +9,12 @@ public class CalendarJdbcRepository implements CalendarRepository {
 	
 	public CalendarJdbcRepository(Calendar calendar)
 	{
+		super();
 		this.mCalendar = calendar;
 	}
 
 
-	public void importObjects()
+	public void importObjects() throws RepositoryException
 	{
 		
 		System.out.println("jdbc import test method");
@@ -22,7 +24,7 @@ public class CalendarJdbcRepository implements CalendarRepository {
 	}
 	
 	
-	public void exportObjects()
+	public void exportObjects() throws RepositoryException
 	{
 		
 		//TODO implement export to db

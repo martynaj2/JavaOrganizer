@@ -5,9 +5,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import JavaOrganizer.exception.RepositoryException;
 import JavaOrganizer.model.Calendar;
 import JavaOrganizer.model.Event;
 import JavaOrganizer.repository.CalendarJdbcRepository;
+import JavaOrganizer.repository.CalendarXmlRepository;
 
 public class CalendarManager {
 
@@ -76,27 +78,39 @@ public class CalendarManager {
 	//***********************************************************
 	// EXPORT/ IMPORT METHODS
 	//***********************************************************
-	public void importDB()
+	public void importDB() throws RepositoryException
 	{
 		CalendarJdbcRepository repository = new CalendarJdbcRepository(mCalendar);
 		
-		repository.exportObjects();
+		repository.importObjects();
 		
 		System.out.println("imported from DB");
 	}
 	
-	public void importXML()
+	public void importXML() throws RepositoryException
 	{
+		CalendarXmlRepository repository = new CalendarXmlRepository(mCalendar);
+		
+		repository.importObjects();		
+		
 		System.out.println("imported from XML");
 	}
 	
-	public void exportDB()
+	public void exportDB() throws RepositoryException
 	{
+		CalendarJdbcRepository repository = new CalendarJdbcRepository(mCalendar);
+		
+		repository.exportObjects();
+			
 		System.out.println("exported to DB");
 	}
 	
-	public void exportXML()
-	{
+	public void exportXML() throws RepositoryException
+	{	
+		CalendarXmlRepository repository = new CalendarXmlRepository(mCalendar);
+		
+		repository.exportObjects();
+		
 		System.out.println("exported to XML");
 	}
 	

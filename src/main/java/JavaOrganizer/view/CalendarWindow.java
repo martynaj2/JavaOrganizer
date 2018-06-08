@@ -11,6 +11,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import JavaOrganizer.controller.CalendarManager;
+import JavaOrganizer.exception.RepositoryException;
 
 @SuppressWarnings("serial")
 public class CalendarWindow extends JFrame
@@ -87,7 +88,18 @@ public class CalendarWindow extends JFrame
 			mnImportFromDB.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					//try catch
-					calManager.importDB();
+					
+					try
+					{
+						calManager.importDB();
+					}
+					catch(RepositoryException e1)
+					{
+						e1.printStackTrace();
+						System.out.println("Error");
+					}
+					
+					
 					//refresh LIST
 					
 					
@@ -101,7 +113,13 @@ public class CalendarWindow extends JFrame
 					public void actionPerformed(ActionEvent e) {
 						
 						//try catch
-						calManager.importXML();
+						try {
+							calManager.importXML();
+						} catch (RepositoryException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+							System.out.println("Error");
+						}
 						//refresh LIST
 						
 						
@@ -115,7 +133,13 @@ public class CalendarWindow extends JFrame
 					public void actionPerformed(ActionEvent e) {
 						
 						//try catch
-						calManager.exportDB();
+						try {
+							calManager.exportDB();
+						} catch (RepositoryException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+							System.out.println("Error");
+						}
 						//refresh LIST
 						
 						
@@ -130,7 +154,13 @@ public class CalendarWindow extends JFrame
 					public void actionPerformed(ActionEvent e) {
 						
 						//try catch
-						calManager.exportXML();
+						try {
+							calManager.exportXML();
+						} catch (RepositoryException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+							System.out.println("Error");
+						}
 						//refresh LIST
 						
 						
