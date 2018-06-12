@@ -14,6 +14,7 @@ import JavaOrganizer.repository.CalendarXmlRepository;
 public class CalendarManager {
 
 	private Calendar mCalendar;
+	public static Long nextEventId = 0L;
 	private static CalendarManager instance = null;
 	
 	//conctructor for calendar manager

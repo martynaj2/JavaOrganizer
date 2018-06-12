@@ -2,6 +2,8 @@ package JavaOrganizer.repository;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+
+import JavaOrganizer.controller.CalendarManager;
 import JavaOrganizer.exception.RepositoryException;
 import JavaOrganizer.model.Calendar;
 import JavaOrganizer.model.Event;
@@ -32,6 +34,7 @@ public class CalendarJdbcRepository implements CalendarRepository {
 			String sql = "SELECT DISTINCT * FROM events";
 			ResultSet rs = stmt.executeQuery(sql);
 			
+			Long maximumEventId = 0L;
 			int eventsImported = 0;
 			while(rs.next()) {
 				Long repId  = rs.getLong("event_id");
@@ -41,12 +44,16 @@ public class CalendarJdbcRepository implements CalendarRepository {
 				LocalDateTime repStartDate = rs.getTimestamp("start_date").toLocalDateTime();
 				LocalDateTime repRemindDate = rs.getTimestamp("remind_date").toLocalDateTime();
 		
+				if(repId > maximumEventId) maximumEventId = repId;
+				
 				System.out.println("Importing event from database");
 				System.out.println("\ttitle: " + repTitle + ", location: " + repLocation + ", start_date: " + repStartDate.toString());
 				
 				++eventsImported;
 				mCalendar.addEvent(new Event(repId,repTitle,repDescription,repLocation,repStartDate,repRemindDate));
 			}
+			
+			CalendarManager.nextEventId = maximumEventId + 1;
 			
 			rs.close();
 			stmt.close();
@@ -75,16 +82,22 @@ public class CalendarJdbcRepository implements CalendarRepository {
 		{
 			Class.forName(dbclass);
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/kompo_db", "root", "gate33");
+			
+			Statement stDelete = conn.createStatement();
+			stDelete.executeUpdate("DELETE FROM events WHERE 1=1");
+			stDelete.close();
+			
 			stmt = conn.createStatement();
-
+			
 			for(Event e : mCalendar.getEventsList())
 			{
 				
 				java.sql.Timestamp sqlStartDate = java.sql.Timestamp.valueOf(e.getStartingDate());
 				java.sql.Timestamp sqlRemindDate = java.sql.Timestamp.valueOf(e.getRemindDate());
 
-				String querry = "INSERT INTO events (title,description,location,start_date,remind_date) VALUES ('" +
-						e.getTitle() + "'" +
+				String querry = "INSERT INTO events (event_id,title,description,location,start_date,remind_date) VALUES (" +
+						e.getId() +
+						", '" + e.getTitle() + "'" +
 						",'" + e.getDescription() + "'" + 
 						",'" + e.getLocation() + "'" + 
 						",'" + sqlStartDate + "'" +

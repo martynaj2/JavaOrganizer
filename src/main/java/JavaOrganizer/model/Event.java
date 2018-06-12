@@ -2,6 +2,8 @@ package JavaOrganizer.model;
 
 import java.time.LocalDateTime;
 
+import JavaOrganizer.controller.CalendarManager;
+
 public class Event implements Comparable<Event> {
 	private long m_Id;
 	private String m_title;
@@ -16,6 +18,8 @@ public class Event implements Comparable<Event> {
 
 	public Event(String title, String descr, String loc,
 			LocalDateTime startDate, LocalDateTime endDate, LocalDateTime remindTime) {
+		this.setId(CalendarManager.nextEventId);
+		++CalendarManager.nextEventId;
 		this.setTitle(title);
 		this.setDescription(descr);
 		this.setLocation(loc);
@@ -62,7 +66,8 @@ public class Event implements Comparable<Event> {
 	}
 	
 	public String toString() {
-		String result = "Tytul: " + m_title + ", opis: " + m_description;
+		String result = String.format("%-5d | TYTUŁ: %s, OPIS: %s, MIEJSCE: %s", m_Id, m_title, m_description, m_location);
+//		String result = "Tytul: " + m_title + ", opis: " + m_description;
 		return result;
 	}
 	

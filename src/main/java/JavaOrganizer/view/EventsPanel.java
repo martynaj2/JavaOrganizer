@@ -1,13 +1,20 @@
 package JavaOrganizer.view;
 
 import java.awt.Color;
+import java.awt.LayoutManager;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 import JavaOrganizer.controller.CalendarManager;
 import JavaOrganizer.model.Event;
@@ -18,6 +25,7 @@ public class EventsPanel extends JPanel {
 	// Widgety
 	JLabel chosenDayLabel = new JLabel("");
 	JLabel eventsCountLabel = new JLabel("");
+	JScrollPane eventsScrollPane;
 	
 	// Inne
 	private CalendarManager calManager;
@@ -30,7 +38,7 @@ public class EventsPanel extends JPanel {
 		setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		
 		chosenDayLabel.setBounds(10, 10, 200, 25);
-		eventsCountLabel.setBounds(10, 40, 500, 300);
+		eventsCountLabel.setBounds(10, 40, 200, 25);
 		eventsCountLabel.setVerticalAlignment(JLabel.TOP);
 		eventsCountLabel.setVerticalTextPosition(JLabel.TOP);
 		add(chosenDayLabel);
@@ -48,12 +56,23 @@ public class EventsPanel extends JPanel {
 			eventsCountLabel.setText("Brak wydarzeń tego dnia.");
 		}
 		else {
-			String content = "<html><p>Liczba wydarzeń: " + events.size() + "</p>";
+			String content = "Liczba wydarzeń: " + events.size() + "";
+			List<String> eventsList = new ArrayList<String>();
 			for(Event e : events) {
-				 content += "<p>" + e.toString() + "</p>";
+				eventsList.add(e.toString());
+//				 content += "<p>" + e.toString() + "</p>";
 			}
-			content += "</html>";
+
+			String[] eventsArray = eventsList.toArray(new String[eventsList.size()]);
+			JList<String> eventsJList = new JList<String>(eventsArray);
+			eventsJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			eventsJList.setSelectedIndex(0);
+			eventsScrollPane = new JScrollPane(eventsJList);
+//			content += "</html>";
 			eventsCountLabel.setText(content);
+			eventsScrollPane.setBounds(10, 70, 500, 300);
+			add(eventsScrollPane);
+			
 		}
 	}
 }
