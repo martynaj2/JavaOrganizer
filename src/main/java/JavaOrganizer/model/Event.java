@@ -36,6 +36,17 @@ public class Event implements Comparable<Event> {
 		this.setRemindDate(remindTime);
 	}
 	
+	public Event(long id,String title, String descr, String loc,
+			LocalDateTime startDate, LocalDateTime remindTime) {
+		this.setM_Id(id);
+		this.setTitle(title);
+		this.setDescription(descr);
+		this.setLocation(loc);
+		this.setStartingDate(startDate);
+		this.setRemindDate(remindTime);
+	}
+	
+	
 	
 	public String convertToOutlookFormat()
 	{
@@ -84,11 +95,11 @@ public class Event implements Comparable<Event> {
 		this.m_endingDate = m_endingDate;
 	}
 
-	private String getLocation() {
+	public String getLocation() {
 		return m_location;
 	}
 
-	private void setLocation(String m_location) {
+	public void setLocation(String m_location) {
 		this.m_location = m_location;
 	}
 	
