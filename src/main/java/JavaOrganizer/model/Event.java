@@ -3,13 +3,14 @@ package JavaOrganizer.model;
 import java.time.LocalDateTime;
 
 public class Event implements Comparable<Event> {
+	private long m_Id;
 	private String m_title;
 	private String m_description;
 	private String m_location;
 	private LocalDateTime m_startingDate;
 	private LocalDateTime m_endingDate;
 	private LocalDateTime m_remindDate;
-	private long m_Id;
+	
 	
 
 
@@ -27,7 +28,7 @@ public class Event implements Comparable<Event> {
 	
 	public Event(long id,String title, String descr, String loc,
 			LocalDateTime startDate, LocalDateTime endDate, LocalDateTime remindTime) {
-		this.setM_Id(id);
+		this.setId(id);
 		this.setTitle(title);
 		this.setDescription(descr);
 		this.setLocation(loc);
@@ -38,7 +39,7 @@ public class Event implements Comparable<Event> {
 	
 	public Event(long id,String title, String descr, String loc,
 			LocalDateTime startDate, LocalDateTime remindTime) {
-		this.setM_Id(id);
+		this.setId(id);
 		this.setTitle(title);
 		this.setDescription(descr);
 		this.setLocation(loc);
@@ -56,7 +57,7 @@ public class Event implements Comparable<Event> {
 	
 	
 	public Event clone() {
-		return new Event(getM_Id(), getTitle(), getDescription(),
+		return new Event(getId(), getTitle(), getDescription(),
 				getLocation(), getStartingDate(), getEndingDate(), getRemindDate());
 	}
 	
@@ -103,11 +104,11 @@ public class Event implements Comparable<Event> {
 		this.m_location = m_location;
 	}
 	
-	public long getM_Id() {
+	public long getId() {
 		return m_Id;
 	}
 
-	public void setM_Id(long m_Id) {
+	public void setId(long m_Id) {
 		this.m_Id = m_Id;
 	}
 

@@ -16,14 +16,11 @@ import JavaOrganizer.view.CalendarWindow;
 public class Main 
 {
 	public static void main(String[] args) {
-
+		testDbConnection();
 		setupUI();
-
 	}
 	
-	public static void setupUI(){
-		
-		//TEST DB connection
+	private static void testDbConnection() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); // load JDBC driver	
 		
@@ -38,11 +35,9 @@ public class Main
 		catch(Exception e) {
 			System.out.println("Could not connect to DB: " + e);
 		}
-		
-		
-		
-		
-		
+	}
+	
+	private static void setupUI() {
 		EventQueue.invokeLater(new Runnable(){
 			public void run(){
 				CalendarWindow calendarWindow = new CalendarWindow();

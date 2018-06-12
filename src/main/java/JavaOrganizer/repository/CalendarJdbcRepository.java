@@ -23,15 +23,16 @@ public class CalendarJdbcRepository implements CalendarRepository {
 
 	public void importObjects() throws RepositoryException
 	{
-		
 		try
 		{
 			Class.forName(dbclass);
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/kompo_db?useUnicode=true&characterEncoding=utf-8", "root", "gate33");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/kompo_db?useUnicode=true&characterEncoding=utf-8",
+											   "root", "gate33");
 			stmt = conn.createStatement();
 			String sql = "SELECT DISTINCT * FROM events";
 			ResultSet rs = stmt.executeQuery(sql);
 			
+			int eventsImported = 0;
 			while(rs.next()) {
 				Long repId  = rs.getLong("event_id");
 				String repTitle = rs.getString("title");
@@ -40,18 +41,17 @@ public class CalendarJdbcRepository implements CalendarRepository {
 				LocalDateTime repStartDate = rs.getTimestamp("start_date").toLocalDateTime();
 				LocalDateTime repRemindDate = rs.getTimestamp("remind_date").toLocalDateTime();
 		
+				System.out.println("Importing event from database");
+				System.out.println("\ttitle: " + repTitle + ", location: " + repLocation + ", start_date: " + repStartDate.toString());
 				
-				System.out.println("tytul : " + repTitle + " \\>");
-				System.out.println("loc : " + repLocation + " \\>");
-				System.out.println("data : " + repStartDate + " \\>");
-				
+				++eventsImported;
 				mCalendar.addEvent(new Event(repId,repTitle,repDescription,repLocation,repStartDate,repRemindDate));
-
 			}
 			
 			rs.close();
 			stmt.close();
 			conn.close();
+			System.out.println("Finished importing events, " + eventsImported + " events imported.");
 	    }
 		catch(SQLException se)
 		{
@@ -77,16 +77,20 @@ public class CalendarJdbcRepository implements CalendarRepository {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/kompo_db", "root", "gate33");
 			stmt = conn.createStatement();
 
-			
 			for(Event e : mCalendar.getEventsList())
 			{
 				
 				java.sql.Date sqlStartDate = java.sql.Date.valueOf(e.getStartingDate().toLocalDate());
 				java.sql.Date sqlRemindDate = java.sql.Date.valueOf(e.getRemindDate().toLocalDate());
 
-				String querry = "INSERT INTO events VALUES (" +	e.getM_Id() + ",'" + e.getTitle() + "','" +
-						e.getDescription() + "','" + e.getLocation() + "','" + sqlStartDate +
-						"','" +	sqlRemindDate + "');";
+				String querry = "INSERT INTO events VALUES (" +
+						e.getId() +
+						",'" + e.getTitle() + "'" +
+						",'" + e.getDescription() + "'" + 
+						",'" + e.getLocation() + "'" + 
+						",'" + sqlStartDate + "'" +
+						",'" +	sqlRemindDate + "'" +
+						");";
 				stmt.executeUpdate(querry);
 			}
 			
