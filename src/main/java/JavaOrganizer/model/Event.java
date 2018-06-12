@@ -61,6 +61,10 @@ public class Event implements Comparable<Event> {
 				getLocation(), getStartingDate(), getEndingDate(), getRemindDate());
 	}
 	
+	public String toString() {
+		String result = "Tytul: " + m_title + ", opis: " + m_description;
+		return result;
+	}
 	
 	
 	// ************************* GETTERY I SETTERY  *************************

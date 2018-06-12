@@ -29,13 +29,13 @@ import JavaOrganizer.controller.CalendarManager;
 public class CalendarPanel extends JPanel {
 
 	// Widgety
-	
-	// Inne
-	private CalendarManager calManager;
-	
 	private JLabel currentDateTimeLabel = new JLabel("");
 	private JLabel calendarMonthYearLabel = new JLabel("");
 	private List<JLabel> calendarTiles = new ArrayList<JLabel>();
+	
+	// Inne
+	private LocalDate currentDate;
+	private CalendarManager calManager;
 	private int currentCalendarMonth = LocalDate.now().getMonthValue();
 	private int currentCalendarYear = LocalDate.now().getYear();
 	
@@ -119,11 +119,13 @@ public class CalendarPanel extends JPanel {
 			if(calendarDate.isEqual(LocalDate.now())) {
 				tile.setOpaque(true);
 				tile.setBackground(new Color(116, 196, 237));
+				currentDate = calendarDate;
 			}
 			final LocalDate labelDate = calendarDate;
 			final CalendarWindow topFrame = (CalendarWindow) SwingUtilities.getWindowAncestor(this);
 			tile.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
+					topFrame.calendarPanel.currentDate = labelDate;
 					topFrame.eventsPanel.showEventsFromDay(labelDate);
 				}
 			});
@@ -151,4 +153,9 @@ public class CalendarPanel extends JPanel {
 		};
 		new Timer(1000, taskPerformer).start();
 	}
+	
+	public LocalDate getCurrentDate() {
+		return currentDate;
+	}
+	
 }

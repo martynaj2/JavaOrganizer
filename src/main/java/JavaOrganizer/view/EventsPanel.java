@@ -30,7 +30,9 @@ public class EventsPanel extends JPanel {
 		setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		
 		chosenDayLabel.setBounds(10, 10, 200, 25);
-		eventsCountLabel.setBounds(10, 40, 200, 25);
+		eventsCountLabel.setBounds(10, 40, 500, 300);
+		eventsCountLabel.setVerticalAlignment(JLabel.TOP);
+		eventsCountLabel.setVerticalTextPosition(JLabel.TOP);
 		add(chosenDayLabel);
 		add(eventsCountLabel);
 	}
@@ -40,12 +42,18 @@ public class EventsPanel extends JPanel {
 	
 	public void showEventsFromDay(LocalDate day) {
 		chosenDayLabel.setText(day.toString());
-		List<Event> events = calManager.getEventsFromDay(day);
+		System.out.println("Displaying events at " + day.toString());
+		List<Event> events = CalendarManager.getInstance().getEventsFromDay(day);
 		if(events.size() == 0) {
 			eventsCountLabel.setText("Brak wydarzeń tego dnia.");
 		}
 		else {
-			eventsCountLabel.setText("Liczba wydarzeń: " + events.size());
+			String content = "<html><p>Liczba wydarzeń: " + events.size() + "</p>";
+			for(Event e : events) {
+				 content += "<p>" + e.toString() + "</p>";
+			}
+			content += "</html>";
+			eventsCountLabel.setText(content);
 		}
 	}
 }

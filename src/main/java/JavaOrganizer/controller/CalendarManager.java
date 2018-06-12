@@ -32,7 +32,7 @@ public class CalendarManager {
 	public List<Event> getEventsFromDay(LocalDate day) {
 		List<Event> chosenEvents = new ArrayList<Event>();
 		for(Event ev : mCalendar.getEventsList()) {
-			if(ev.getStartingDate().toLocalDate() == day) {
+			if(ev.getStartingDate().toLocalDate().isEqual(day)) {
 				chosenEvents.add(ev);
 			}
 		}

@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -13,38 +14,37 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import JavaOrganizer.controller.CalendarManager;
+import JavaOrganizer.exception.RepositoryException;
+import JavaOrganizer.model.Event;
+
+import java.time.LocalDate;
+
 public class NewEventDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	
+	public JTextField eventTitle;
+	public JTextField eventDesc;
+	public JTextField eventLoc;
+	public JTextField eventStartDateField;
+	public JTextField eventRemindDateField;
 	
-	
-	private JTextField eventTitle;
-	private JTextField eventDesc;
-	private JTextField eventLoc;
-	
-	public NewEventDialog()
+	public NewEventDialog(LocalDate eventStartDate)
 	{
-		setTitle("New Event ");
+		setTitle("New event (" + eventStartDate.toString() + ")");
 		setBounds(400, 250, 450, 281);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		//contentPanel.setLayout(new BorderLayout(0, 0));
 		contentPanel.setLayout(null);
-		
-
-		//		startingDate;
-		
-		//		endingDate;
-		
-		
+				
 		//		title;
 		JLabel lblTitle = new JLabel("Title");
 		lblTitle.setBounds(15, 14, 107, 14);
 		contentPanel.add(lblTitle);
-		
 		
 		eventTitle = new JTextField();
 		eventTitle.setBounds(130, 11, 260, 20);
@@ -55,7 +55,6 @@ public class NewEventDialog extends JDialog {
 		lblDesc.setBounds(15, 44, 107, 14);
 		contentPanel.add(lblDesc);
 		
-		
 		eventDesc = new JTextField();
 		eventDesc.setBounds(130, 41, 260, 20);
 		contentPanel.add(eventDesc);
@@ -65,30 +64,28 @@ public class NewEventDialog extends JDialog {
 		lblLocation.setBounds(15, 74, 107, 14);
 		contentPanel.add(lblLocation);
 		
-		
 		eventLoc = new JTextField();
 		eventLoc.setBounds(130, 71, 260, 20);
 		contentPanel.add(eventLoc);
 		
-		//		start date;		
+		//		start date;
 		JLabel lblStartDate = new JLabel("Start date");
 		lblStartDate.setBounds(15, 104, 107, 14);
 		contentPanel.add(lblStartDate);
 		
+		LocalDateTime startDate = LocalDateTime.of(eventStartDate, LocalTime.of(12, 0));
+		eventStartDateField = new JTextField(startDate.toString());
+		eventStartDateField.setBounds(130, 101, 260, 20);
+		contentPanel.add(eventStartDateField);
 		
-//		eventLoc = new JTextField();
-//		eventLoc.setBounds(130, 101, 260, 20);
-//		contentPanel.add(eventLoc);
+		// remind date;		
+		JLabel lblRemindDate = new JLabel("Remind date");
+		lblRemindDate.setBounds(15, 134, 107, 14);
+		contentPanel.add(lblRemindDate);
 		
-		// end date;		
-		JLabel lblEndDate = new JLabel("End date");
-		lblEndDate.setBounds(15, 134, 107, 14);
-		contentPanel.add(lblEndDate);
-		
-		
-//		eventLoc = new JTextField();
-//		eventLoc.setBounds(130, 131, 260, 20);
-//		contentPanel.add(eventLoc);
+		eventRemindDateField = new JTextField(startDate.minusMinutes(15).toString());
+		eventRemindDateField.setBounds(130, 131, 260, 20);
+		contentPanel.add(eventRemindDateField);
 		
 			
 			JPanel buttonPane = new JPanel();
@@ -98,6 +95,21 @@ public class NewEventDialog extends JDialog {
 				JButton okButton = new JButton("Create New Event");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						String evTitle = NewEventDialog.this.eventTitle.getText();
+						String evDescr = NewEventDialog.this.eventDesc.getText();
+						String evLoc = NewEventDialog.this.eventLoc.getText();
+						LocalDateTime evStart = LocalDateTime.parse(NewEventDialog.this.eventStartDateField.getText());
+						LocalDateTime evRemind = LocalDateTime.parse(NewEventDialog.this.eventRemindDateField.getText());
+						Event ev = new Event(evTitle, evDescr, evLoc, evStart, evStart, evRemind);
+						System.out.println("Adding new event = " + ev.toString());
+						
+						CalendarManager.getInstance().addNewEvent(ev);
+						try {
+							CalendarManager.getInstance().exportDB();
+						} catch (RepositoryException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						dispose();
 					}
 				});

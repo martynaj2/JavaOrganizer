@@ -80,17 +80,18 @@ public class CalendarJdbcRepository implements CalendarRepository {
 			for(Event e : mCalendar.getEventsList())
 			{
 				
-				java.sql.Date sqlStartDate = java.sql.Date.valueOf(e.getStartingDate().toLocalDate());
-				java.sql.Date sqlRemindDate = java.sql.Date.valueOf(e.getRemindDate().toLocalDate());
+				java.sql.Timestamp sqlStartDate = java.sql.Timestamp.valueOf(e.getStartingDate());
+				java.sql.Timestamp sqlRemindDate = java.sql.Timestamp.valueOf(e.getRemindDate());
 
-				String querry = "INSERT INTO events VALUES (" +
-						e.getId() +
-						",'" + e.getTitle() + "'" +
+				String querry = "INSERT INTO events (title,description,location,start_date,remind_date) VALUES ('" +
+						e.getTitle() + "'" +
 						",'" + e.getDescription() + "'" + 
 						",'" + e.getLocation() + "'" + 
 						",'" + sqlStartDate + "'" +
 						",'" +	sqlRemindDate + "'" +
 						");";
+				
+				System.out.println(querry);
 				stmt.executeUpdate(querry);
 			}
 			

@@ -29,6 +29,12 @@ public class CalendarWindow extends JFrame
 	public CalendarWindow()
 	{
 		calManager = CalendarManager.getInstance();	
+		try {
+			CalendarManager.getInstance().importDB();
+		} catch (RepositoryException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		setBounds(100, 100, 1000, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -183,7 +189,7 @@ public class CalendarWindow extends JFrame
 		//ACTION FOR EVENT BUTTON
 		mnNewEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				NewEventDialog newEventDialog = new NewEventDialog();
+				NewEventDialog newEventDialog = new NewEventDialog(calendarPanel.getCurrentDate());
 				newEventDialog.setVisible(true);
 			}
 		});	
