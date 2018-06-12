@@ -75,6 +75,25 @@ public class CalendarManager {
 		return result;
 	}
 	
+	//***********************************************************
+	// REMOVE EVENTS
+	//***********************************************************
+	
+	public void removeEventById(Long id) {
+		System.out.println("Removing event with id " + id);
+		for(Event e : mCalendar.getEventsList()) {
+			if(e.getId() == id) {
+				mCalendar.getEventsList().remove(e);
+			}
+		}
+		try {
+			exportDB();
+		} catch (RepositoryException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	
 	
 	//***********************************************************
 	// EXPORT/ IMPORT METHODS

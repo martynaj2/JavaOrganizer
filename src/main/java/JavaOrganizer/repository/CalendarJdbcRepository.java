@@ -76,8 +76,6 @@ public class CalendarJdbcRepository implements CalendarRepository {
 	
 	public void exportObjects() throws RepositoryException
 	{
-
-		
 		try
 		{
 			Class.forName(dbclass);
@@ -126,6 +124,4 @@ public class CalendarJdbcRepository implements CalendarRepository {
 		System.out.println("jdbc export test method");
 		
 	}
-
-	
 }
