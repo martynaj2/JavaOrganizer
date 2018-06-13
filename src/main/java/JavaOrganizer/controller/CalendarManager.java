@@ -88,7 +88,7 @@ public class CalendarManager {
 		return result;
 	}
 	
-	//// przypomnienia
+	//// przypomnienia i alarm
 	public void displayReminders(LocalDateTime time){
 		for(Event ev : mCalendar.getEventsList()) {
 			if (ev.getRemindDate().truncatedTo(ChronoUnit.MINUTES).isEqual(time.truncatedTo(ChronoUnit.MINUTES)) &&

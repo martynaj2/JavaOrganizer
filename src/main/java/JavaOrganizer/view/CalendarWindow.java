@@ -3,6 +3,7 @@ package JavaOrganizer.view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -55,6 +56,10 @@ public class CalendarWindow extends JFrame
 		
 		calendarPanel.showPanel();
 		eventsPanel.showPanel();
+	}
+	
+	public LocalDate getCurrentlyDisplayedDate() {
+		return eventsPanel.getCurrentlyDisplayedDate();
 	}
 	
 	//! Tworzy menu i jego zawartosc.

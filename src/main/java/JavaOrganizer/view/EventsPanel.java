@@ -85,6 +85,10 @@ public class EventsPanel extends JPanel {
 	public void showPanel() {
 	}	
 	
+	public LocalDate getCurrentlyDisplayedDate() {
+		return currentlyDisplayedDate;
+	}
+	
 	public void showEventsFromDay(LocalDate day) {
 		currentlyDisplayedDate = day;
 		chosenDayLabel.setText(day.toString());

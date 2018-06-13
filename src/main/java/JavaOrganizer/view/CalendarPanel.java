@@ -29,7 +29,7 @@ import JavaOrganizer.controller.CalendarManager;
 public class CalendarPanel extends JPanel {
 
 	// Widgety
-	private JLabel currentDateTimeLabel = new JLabel("");
+	private JLabel currentDateTimeLabel = new JLabel("", SwingConstants.CENTER);
 	private JLabel calendarMonthYearLabel = new JLabel("");
 	private List<JLabel> calendarTiles = new ArrayList<JLabel>();
 	
@@ -116,13 +116,20 @@ public class CalendarPanel extends JPanel {
 			tile.setBounds(xPosition, yPosition, 50, 50);
 			tile.setBorder(BorderFactory.createLineBorder(Color.black));
 			tile.setCursor(Cursor.getDefaultCursor());
+			
+			final CalendarWindow topFrame = (CalendarWindow) SwingUtilities.getWindowAncestor(this);
 			if(calendarDate.isEqual(LocalDate.now())) {
 				tile.setOpaque(true);
 				tile.setBackground(new Color(116, 196, 237));
 				currentDate = calendarDate;
 			}
-			final LocalDate labelDate = calendarDate;
-			final CalendarWindow topFrame = (CalendarWindow) SwingUtilities.getWindowAncestor(this);
+			/*else if(calendarDate.isEqual(topFrame.calendarPanel.currentDate)) {
+				tile.setOpaque(true);
+				tile.setBackground(new Color(116, 196, 237));
+				//currentDate = calendarDate;
+			}
+			*/final LocalDate labelDate = calendarDate;
+			
 			tile.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
 					topFrame.calendarPanel.currentDate = labelDate;
@@ -148,6 +155,8 @@ public class CalendarPanel extends JPanel {
 			public void actionPerformed(ActionEvent evt) {
 				LocalDateTime dateTime = LocalDateTime.now();
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+				currentDateTimeLabel.setFont(new Font("Helvetica", Font.BOLD, 23));
+				currentDateTimeLabel.setForeground(Color.orange);
 				currentDateTimeLabel.setText("Aktualna data: " + dateTime.format(formatter));
 				CalendarManager.getInstance().displayReminders(dateTime);
 			}
