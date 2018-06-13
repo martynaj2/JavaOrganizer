@@ -149,6 +149,7 @@ public class CalendarPanel extends JPanel {
 				LocalDateTime dateTime = LocalDateTime.now();
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 				currentDateTimeLabel.setText("Aktualna data: " + dateTime.format(formatter));
+				CalendarManager.getInstance().displayReminders(dateTime);
 			}
 		};
 		new Timer(1000, taskPerformer).start();

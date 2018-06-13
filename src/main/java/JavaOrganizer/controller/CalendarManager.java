@@ -6,10 +6,13 @@ import java.io.FileWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import JavaOrganizer.exception.RepositoryException;
 import JavaOrganizer.model.Calendar;
@@ -81,6 +84,30 @@ public class CalendarManager {
 		return result;
 	}
 	
+	//// przypomnienia
+	public void displayReminders(LocalDateTime time){
+		for(Event ev : mCalendar.getEventsList()) {
+			if (ev.getRemindDate().truncatedTo(ChronoUnit.MINUTES).isEqual(time.truncatedTo(ChronoUnit.MINUTES)) &&
+			    ev.getRemindDate().until(time, ChronoUnit.SECONDS) < 1) {
+				JOptionPane.showMessageDialog(null, "Masz nadchodzace wydarzenie " + ev.getTitle() +
+						" dnia " + ev.getStartingDate().format(DateTimeFormatter.ISO_LOCAL_DATE) +
+						" o godzinie " + ev.getStartingDate().format(DateTimeFormatter.ISO_LOCAL_TIME));
+			}	
+		}
+	}
+	
+	
+/*	//! Zwraca liste eventow w kalendarzu ktore maja ustawiona taka sama date jak `day`
+	public List<Event> getRemindersFromTime(LocalDateTime time) {
+		List<Event> chosenEvents = new ArrayList<Event>();
+		for(Event ev : mCalendar.getEventsList()) {
+			if(ev.getStartingDate().toLocalDate().isEqual(day)) {
+				chosenEvents.add(ev);
+			}
+		}
+		return chosenEvents;
+	}	*/
+	
 	//***********************************************************
 	// REMOVE EVENTS
 	//***********************************************************
@@ -90,6 +117,7 @@ public class CalendarManager {
 		for(Event e : mCalendar.getEventsList()) {
 			if(e.getId() == id) {
 				mCalendar.getEventsList().remove(e);
+				break;
 			}
 		}
 		try {
