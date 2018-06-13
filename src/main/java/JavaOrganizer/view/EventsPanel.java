@@ -13,7 +13,6 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -35,7 +34,6 @@ public class EventsPanel extends JPanel {
 	JLabel eventsCountLabel = new JLabel("");
 	JScrollPane eventsScrollPane;
 	JList<String> eventsJList;
-	JComboBox<String> eventFiltersBox;
 	
 	// Inne
 	private CalendarManager calManager;
@@ -90,19 +88,6 @@ public class EventsPanel extends JPanel {
         });
 		add(removeOlderEventsButton);
 		
-		String[] eventFilters = {"wszystkie", "rano", "południe", "wieczorem"};
-		eventFiltersBox = new JComboBox<String>(eventFilters);
-		eventFiltersBox.setSelectedIndex(0);
-		eventFiltersBox.setBounds(410, 40, 100, 25);
-		eventFiltersBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	String filter = eventFiltersBox.getSelectedItem().toString();
-            	System.out.println("Wybrano filtr: " + filter);
-            	List<Event> filteredEvents = CalendarManager.getInstance().filterEventsFromDay(currentlyDisplayedDate, filter);
-            	showEvents(filteredEvents);
-            }
-        });
-		add(eventFiltersBox);
 		
 		chosenDayLabel.setBounds(10, 10, 200, 25);
 		eventsCountLabel.setBounds(10, 40, 250, 25);
@@ -122,15 +107,11 @@ public class EventsPanel extends JPanel {
 	}
 	
 	public void showEventsFromDay(LocalDate day) {
-		List<Event> events = CalendarManager.getInstance().getEventsFromDay(day);
 		currentlyDisplayedDate = day;
 		chosenDayLabel.setFont(new Font("Helvetica", Font.PLAIN, 14));
 		chosenDayLabel.setText(day.toString());
 		System.out.println("Displaying events at " + day.toString());
-		showEvents(events);
-	}
-	
-	public void showEvents(List<Event> events) {
+		List<Event> events = CalendarManager.getInstance().getEventsFromDay(day);
 		remove(eventsScrollPane);
 		repaint();
 		revalidate();
@@ -146,11 +127,11 @@ public class EventsPanel extends JPanel {
 			String content = "Liczba wydarzeń: " + events.size() + "";
 			removeEventButton.setVisible(true);
 			saveInGoogleFormatButton.setVisible(true);
-			
 			List<String> eventsList = new ArrayList<String>();
 			for(Event e : events) {
 				eventsList.add(e.toString());
 			}
+
 			
 			String[] eventsArray = eventsList.toArray(new String[eventsList.size()]);
 			eventsJList = new JList<String>(eventsArray);
