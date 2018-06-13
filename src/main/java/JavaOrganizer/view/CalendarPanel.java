@@ -59,7 +59,7 @@ public class CalendarPanel extends JPanel {
 	//! (aktualny miesiac/rok, przyciski do nawigacji
 	private void showCalendar() {
 		calendarMonthYearLabel.setBounds(200, 100, 200, 25);
-		JButton prevMonthButton = new JButton("Poprzedni");
+		JButton prevMonthButton = new JButton("<<<");
 		calendarMonthYearLabel.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 		add(calendarMonthYearLabel);
 		
@@ -77,7 +77,7 @@ public class CalendarPanel extends JPanel {
         });
 		add(prevMonthButton);
 		
-		JButton nextMonthButton = new JButton("Następny");
+		JButton nextMonthButton = new JButton(">>>");
 		nextMonthButton.setBounds(300, 100, 100, 25);
 		nextMonthButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

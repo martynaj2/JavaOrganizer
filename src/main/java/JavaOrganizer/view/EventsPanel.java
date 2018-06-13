@@ -27,6 +27,7 @@ public class EventsPanel extends JPanel {
 	
 	// Widgety
 	JButton removeEventButton;
+	JButton saveInGoogleFormatButton;
 	JLabel chosenDayLabel = new JLabel("");
 	JLabel eventsCountLabel = new JLabel("");
 	JScrollPane eventsScrollPane;
@@ -44,6 +45,18 @@ public class EventsPanel extends JPanel {
 		setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		
 		eventsScrollPane = new JScrollPane();
+		
+		saveInGoogleFormatButton = new JButton("Save in Google format");
+		saveInGoogleFormatButton.setBounds(135, 480, 160, 25);
+		saveInGoogleFormatButton.setVisible(false);
+		saveInGoogleFormatButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	String selectedEventId = EventsPanel.this.eventsJList.getSelectedValue().substring(0, 5).replaceAll(" ", "");
+            	Long eventId = Long.parseLong(selectedEventId);
+            	CalendarManager.getInstance().convertEventToGoogle(eventId);
+            }
+        });
+		add(saveInGoogleFormatButton);
 		
 		removeEventButton = new JButton("Remove event");
 		removeEventButton.setBounds(10, 480, 120, 25);
@@ -83,12 +96,14 @@ public class EventsPanel extends JPanel {
 		if(events.size() == 0) {
 			eventsCountLabel.setText("Brak wydarzeń tego dnia.");
 			removeEventButton.setVisible(false);
+			saveInGoogleFormatButton.setVisible(false);
 			eventsScrollPane.setVisible(false);
 			eventsScrollPane.repaint();
 		}
 		else {
 			String content = "Liczba wydarzeń: " + events.size() + "";
 			removeEventButton.setVisible(true);
+			saveInGoogleFormatButton.setVisible(true);
 			List<String> eventsList = new ArrayList<String>();
 			for(Event e : events) {
 				eventsList.add(e.toString());

@@ -1,9 +1,15 @@
 package JavaOrganizer.controller;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JFileChooser;
 
 import JavaOrganizer.exception.RepositoryException;
 import JavaOrganizer.model.Calendar;
@@ -98,6 +104,29 @@ public class CalendarManager {
 	//***********************************************************
 	// EXPORT/ IMPORT METHODS
 	//***********************************************************
+	
+	public void convertEventToGoogle(Long id) {
+		String result = "Subject,Start Date,Start Time,Description,Location\n";
+		for(Event e : mCalendar.getEventsList()) {
+			if(e.getId() == id) {
+				result += e.getTitle().replaceAll(",", "") + ",";
+				result += e.getStartingDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")) + ",";
+				result += e.getStartingDate().format(DateTimeFormatter.ofPattern("hh:mm a")) + ",";
+				result += e.getDescription().replaceAll(",", "") + ",";
+				result += e.getLocation().replaceAll(",", "");
+				JFileChooser fileChooser = new JFileChooser();
+				if (fileChooser.showSaveDialog(fileChooser) == JFileChooser.APPROVE_OPTION) {
+				  try {
+					  BufferedWriter writer = new BufferedWriter(new FileWriter(fileChooser.getSelectedFile()));
+					  writer.write(result);
+					  writer.close();
+				  }
+				  catch(Exception e1) { }
+				}
+			}
+		}
+	}
+	
 	
 	//JDBC PART
 	public void importDB() throws RepositoryException
