@@ -6,10 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -95,15 +97,35 @@ public class NewEventDialog extends JDialog {
 				JButton okButton = new JButton("Create New Event");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						if(NewEventDialog.this.eventTitle.getText().isEmpty() ||
+								NewEventDialog.this.eventStartDateField.getText().isEmpty()) {
+							JOptionPane.showMessageDialog(null, "Tytuł zdarzenia i data poczatkowa nie moga byc puste!");
+							return;
+						}
+						
 						String evTitle = NewEventDialog.this.eventTitle.getText();
 						String evDescr = NewEventDialog.this.eventDesc.getText();
 						String evLoc = NewEventDialog.this.eventLoc.getText();
-						LocalDateTime evStart = LocalDateTime.parse(NewEventDialog.this.eventStartDateField.getText());
-						LocalDateTime evRemind = LocalDateTime.parse(NewEventDialog.this.eventRemindDateField.getText());
+						LocalDateTime evStart;
+						LocalDateTime evRemind;
+						try {
+							evStart = LocalDateTime.parse(NewEventDialog.this.eventStartDateField.getText());
+							evRemind = LocalDateTime.parse(NewEventDialog.this.eventRemindDateField.getText());
+						}
+						catch(Exception e) {
+							JOptionPane.showMessageDialog(null, "Data w podanym formacie nie jest poprawna!");
+							return;
+						}
+						
+						if(evStart.isBefore(evRemind)) {
+							JOptionPane.showMessageDialog(null, "Data poczatkowa nie moze poprzedzac daty przypomnienia!");
+							return;
+						}
+						
 						Event ev = new Event(evTitle, evDescr, evLoc, evStart, evStart, evRemind);
 						System.out.println("Adding new event = " + ev.toString());
-						
 						CalendarManager.getInstance().addNewEvent(ev);
+						
 						try {
 							CalendarManager.getInstance().exportDB();
 						} catch (RepositoryException e) {

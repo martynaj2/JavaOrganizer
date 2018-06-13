@@ -13,9 +13,6 @@ public class Event implements Comparable<Event> {
 	private LocalDateTime m_endingDate;
 	private LocalDateTime m_remindDate;
 	
-	
-
-
 	public Event(String title, String descr, String loc,
 			LocalDateTime startDate, LocalDateTime endDate, LocalDateTime remindTime) {
 		this.setId(CalendarManager.nextEventId);
@@ -79,6 +76,9 @@ public class Event implements Comparable<Event> {
 	}
 
 	public void setTitle(String m_title) {
+		if(m_title.isEmpty()) {
+			throw new RuntimeException("Nazwa zdarzenia nie moze byc pusta!");
+		}
 		this.m_title = m_title;
 	}
 

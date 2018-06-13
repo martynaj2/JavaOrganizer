@@ -38,8 +38,6 @@ public class CalendarXmlRepository implements CalendarRepository{
 		xstream.allowTypes(classes);
 		
 	}
-
-	
 	
 	public void importObjects() throws RepositoryException
 	{		
