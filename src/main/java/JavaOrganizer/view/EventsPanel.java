@@ -28,6 +28,7 @@ public class EventsPanel extends JPanel {
 	
 	// Widgety
 	JButton removeEventButton;
+	JButton removeOlderEventsButton;
 	JButton saveInGoogleFormatButton;
 	JLabel chosenDayLabel = new JLabel("");
 	JLabel eventsCountLabel = new JLabel("");
@@ -36,7 +37,7 @@ public class EventsPanel extends JPanel {
 	
 	// Inne
 	private CalendarManager calManager;
-	private LocalDate currentlyDisplayedDate;
+	private LocalDate currentlyDisplayedDate = LocalDate.now();
 	
 	public EventsPanel(CalendarManager manager) {
 		this.calManager = manager;
@@ -48,7 +49,7 @@ public class EventsPanel extends JPanel {
 		eventsScrollPane = new JScrollPane();
 		
 		saveInGoogleFormatButton = new JButton("Eksportuj do formatu Google");
-		saveInGoogleFormatButton.setBounds(250, 480, 200, 25);
+		saveInGoogleFormatButton.setBounds(300, 480, 200, 25);
 		saveInGoogleFormatButton.setVisible(false);
 		saveInGoogleFormatButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -60,7 +61,7 @@ public class EventsPanel extends JPanel {
 		add(saveInGoogleFormatButton);
 		
 		removeEventButton = new JButton("Usuń wydarzenie");
-		removeEventButton.setBounds(100, 480, 140, 25);
+		removeEventButton.setBounds(155, 480, 140, 25);
 		removeEventButton.setVisible(false);
 		removeEventButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -74,6 +75,19 @@ public class EventsPanel extends JPanel {
         });
 		add(removeEventButton);
 		
+		removeOlderEventsButton = new JButton("Usuń starsze");
+		removeOlderEventsButton.setBounds(10, 480, 140, 25);
+		removeOlderEventsButton.setVisible(true);
+		removeOlderEventsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	String selectedEventId = EventsPanel.this.eventsJList.getSelectedValue().substring(0, 5).replaceAll(" ", "");
+            	Long eventId = Long.parseLong(selectedEventId);
+            	CalendarManager.getInstance().removeEventsOlderThanDate(currentlyDisplayedDate);
+            	System.out.println("Usuwanie wydarzen starszych niz " + eventId);
+            }
+        });
+		add(removeOlderEventsButton);
+		
 		
 		chosenDayLabel.setBounds(10, 10, 200, 25);
 		eventsCountLabel.setBounds(10, 40, 250, 25);
@@ -81,6 +95,8 @@ public class EventsPanel extends JPanel {
 		eventsCountLabel.setVerticalTextPosition(JLabel.TOP);
 		add(chosenDayLabel);
 		add(eventsCountLabel);
+		
+		showEventsFromDay(currentlyDisplayedDate);
 	}
 	
 	public void showPanel() {

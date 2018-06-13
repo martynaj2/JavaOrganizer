@@ -196,6 +196,7 @@ public class CalendarWindow extends JFrame
 			public void actionPerformed(ActionEvent e) {
 				NewEventDialog newEventDialog = new NewEventDialog(calendarPanel.getCurrentDate());
 				newEventDialog.setVisible(true);
+//				eventsPanel.showEventsFromDay(calendarPanel.getCurrentDate());
 			}
 		});	
 	}

@@ -88,6 +88,15 @@ public class CalendarManager {
 		return result;
 	}
 	
+	public Event getEventById(Long id) throws IndexOutOfBoundsException {
+		for(Event e : mCalendar.getEventsList()) {
+			if(e.getId() == id) {
+				return e;
+			}
+		}
+		throw new IndexOutOfBoundsException("Nie znaleziono eventu z podanym ID");
+	}
+	
 	//// przypomnienia i alarm
 	public void displayReminders(LocalDateTime time){
 		for(Event ev : mCalendar.getEventsList()) {
@@ -134,6 +143,21 @@ public class CalendarManager {
 				break;
 			}
 		}
+		try {
+			exportDB();
+		} catch (RepositoryException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	
+	
+	/**
+	 * Usuwa wydarzenia starsze niz podana data
+	 * @param date wydarzenia starsze niz ta data beda usuwane
+	 */
+	public void removeEventsOlderThanDate(LocalDate date) {
+		mCalendar.getEventsList().removeIf(x -> x.getStartingDate().toLocalDate().isBefore(date));
 		try {
 			exportDB();
 		} catch (RepositoryException e1) {
