@@ -216,4 +216,20 @@ public class CalendarPanel extends JPanel {
 		return currentDate;
 	}
 	
+	public final void changeBackgroundDark()
+	{
+		setBackground(new Color(180, 180, 180));
+		setBorder(BorderFactory.createLineBorder(Color.BLUE));
+		
+		repaint();
+	}
+	
+	public final void changeBackgroundLight()
+	{
+		setBackground(new Color(254, 254, 254));
+		setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		
+		repaint();
+	}
+	
 }

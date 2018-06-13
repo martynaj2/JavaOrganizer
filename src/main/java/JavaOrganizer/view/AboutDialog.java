@@ -40,13 +40,13 @@ public class AboutDialog extends JDialog
 			buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Close");
+				JButton okButton = new JButton("Zamknij");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						dispose();
 					}
 				});
-				okButton.setActionCommand("Close");
+				okButton.setActionCommand("Zamknij");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}

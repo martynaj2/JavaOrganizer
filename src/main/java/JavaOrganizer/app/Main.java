@@ -3,10 +3,7 @@ package JavaOrganizer.app;
 import java.awt.EventQueue;
 import java.sql.DriverManager;
 
-import java.sql.DriverManager;
 import java.sql.Connection;
-import java.sql.SQLException;
-
 import JavaOrganizer.view.CalendarWindow;
 
 public class Main 

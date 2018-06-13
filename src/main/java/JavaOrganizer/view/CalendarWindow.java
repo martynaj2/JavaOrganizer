@@ -177,7 +177,10 @@ public class CalendarWindow extends JFrame
 		//OPTION FOR ABOUT
 		//******************************************************************
 		JMenuItem mnAboutPro = new JMenuItem("About the program");
+		JMenuItem mnSettings = new JMenuItem("Settings");
 		mnAbout.add(mnAboutPro);
+		mnAbout.addSeparator();
+		mnAbout.add(mnSettings);
 		
 		//ACTION FOR ABOUT BUTTON
 		mnAboutPro.addActionListener(new ActionListener() {
@@ -217,6 +220,30 @@ public class CalendarWindow extends JFrame
 		
 		mnEvent.add(mnNewEvent);
 		
+		
+		
+		//! Ustawia nasłuchiwania pod przycisk CTRL_O na opcje
+		//ACTION FOR ABOUT BUTTON
+		mnSettings.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 SettingsDialog settingsDialog = new SettingsDialog(calendarPanel, eventsPanel);
+	        	  settingsDialog.setVisible(true);
+			}
+		});
+		
+		
+		
+		KeyStroke ctrlO = KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask());
+
+		
+		mnSettings.setAccelerator(ctrlO);
+		mnSettings.addActionListener(new ActionListener() {
+	          @Override
+	          public void actionPerformed(ActionEvent actionEvent) {
+	          }
+	        });
+		
+		mnAbout.add(mnSettings);
 		
 	}
 }
