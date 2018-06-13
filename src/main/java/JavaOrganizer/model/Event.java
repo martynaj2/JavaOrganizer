@@ -66,7 +66,8 @@ public class Event implements Comparable<Event> {
 	}
 	
 	public String toString() {
-		String result = String.format("%-5d | TYTUŁ: %s, OPIS: %s, MIEJSCE: %s", m_Id, m_title, m_description, m_location);
+		String result = String.format("%-5d | TYTUŁ: %s, OPIS: %s, MIEJSCE: %s, CZAS: %s",
+				m_Id, m_title, m_description, m_location, m_startingDate.toString());
 //		String result = "Tytul: " + m_title + ", opis: " + m_description;
 		return result;
 	}
