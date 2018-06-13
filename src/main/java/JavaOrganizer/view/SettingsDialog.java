@@ -38,7 +38,7 @@ public class SettingsDialog extends JDialog {
 		
 		
 		setTitle("Settings");
-		setBounds(400, 250, 450, 281);
+		setBounds(400, 250, 245, 100);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -47,7 +47,7 @@ public class SettingsDialog extends JDialog {
 		
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER));
-			getContentPane().add(buttonPane, BorderLayout.EAST);
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("Jasny Motyw");
 				okButton.addActionListener(new ActionListener() {
@@ -64,7 +64,7 @@ public class SettingsDialog extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 			
-			getContentPane().add(buttonPane, BorderLayout.WEST);
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("Ciemny Motyw");
 				okButton.addActionListener(new ActionListener() {
