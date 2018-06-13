@@ -32,20 +32,29 @@ public class CalendarManager {
 	public static Long nextEventId = 0L;
 	private static CalendarManager instance = null;
 	
-	//conctructor for calendar manager
+	/**
+	 * Konstruktor klasy CalendarManager
+	 */
 	protected CalendarManager() {
 		mCalendar = new Calendar();
 	}
 	
-	//instance for manager 
+	/**
+	 * Zwraca instancje singletonu CalendarManager
+	 * @return instancja CalendarManager
+	 */
 	public static CalendarManager getInstance() {
 		if(instance == null)
 			instance = new CalendarManager();
 		return instance;
 	}
 		
-	//! Metoda statyczna, nie potrzebuje obiektu Calendar do wywolania
-	//! Zwraca ilosc dni w miesiacu na podstawie numeru miesiaca i roku
+	/**
+	 *  Zwraca ilosc dni w miesiacu na podstawie numeru miesiaca i roku
+	 * @param month miesiac
+	 * @param year rok
+	 * @return ilosc dni w miesiacuna podstawie numeru miesiaca i roku
+	 */
 	public int getNumberOfDays(int month, int year) {
 		return Calendar.getNumberOfDays(month, year);
 	}
@@ -54,14 +63,23 @@ public class CalendarManager {
 	// NEW EVENT
 	//***********************************************************
 	
-	// add new event as object
-	
+	/**
+	 * Dodaje nowe zdarzenie do kalendarza
+	 * @param event obiekt zdarzenia
+	 */
 	public void addNewEvent(Event event) {
 		mCalendar.addEvent(event);
 	}
 	
-	// add new event as conctructor
-	
+	/**
+	 * Dodaje nowe zdarzenie do kalendarza, tworzac obiekt zdarzenia na podstawie parametrow
+	 * @param title tytul zdarzenia
+	 * @param description opis zdarzenia
+	 * @param location miejsce zdarzenia
+	 * @param start data poczatkowa
+	 * @param end data koncowa
+	 * @param remind data przypomnienia
+	 */
 	public void addNewEvent(String title, String description, String location,
 			LocalDateTime start, LocalDateTime end, LocalDateTime remind) {
 		mCalendar.addEvent(new Event(title, description, location, start, end, remind));
@@ -72,6 +90,10 @@ public class CalendarManager {
 	// GET EVENTS
 	//***********************************************************
 	
+	/**
+	 * Zwraca wszystkie zdarzenia z kalendarza
+	 * @return lista obiektow klasy Event
+	 */
 	public ArrayList<Event> getAllEvents() {
 		ArrayList<Event> result = new ArrayList<Event>();
 		for(Event e : mCalendar.getEventsList())
@@ -79,6 +101,13 @@ public class CalendarManager {
 		return result;
 	}
 	
+	/**
+	 * Zwraca zdarzenie o podanym indeksie,
+	 * jesli takie nie istnieje - rzuca wyjatek IndexOutOfBoundsException
+	 * @param id indeks zdarzenia
+	 * @return obiekt klasy Event
+	 * @throws IndexOutOfBoundsException
+	 */
 	public Event getEventById(Long id) throws IndexOutOfBoundsException {
 		for(Event e : mCalendar.getEventsList()) {
 			if(e.getId() == id) {
@@ -130,7 +159,10 @@ public class CalendarManager {
 		return filteredEvents;
 	}
 	
-	//// przypomnienia i alarm
+	/**
+	 * Wyswietla przypomnienia dla wydarzen, ktore oczekuja przypomnien w danej chwili
+	 * @param time aktualna data i czas
+	 */
 	public void displayReminders(LocalDateTime time){
 		for(Event ev : mCalendar.getEventsList()) {
 			if (ev.getRemindDate().truncatedTo(ChronoUnit.MINUTES).isEqual(time.truncatedTo(ChronoUnit.MINUTES)) &&
@@ -168,6 +200,10 @@ public class CalendarManager {
 	// REMOVE EVENTS
 	//***********************************************************
 	
+	/**
+	 * Usuwa zdarzenie o podanym id jesli takie istnieje
+	 * @param id id zdarzenia
+	 */
 	public void removeEventById(Long id) {
 		System.out.println("Removing event with id " + id);
 		for(Event e : mCalendar.getEventsList()) {
@@ -204,6 +240,11 @@ public class CalendarManager {
 	// EXPORT/ IMPORT METHODS
 	//***********************************************************
 	
+	/**
+	 * Konwertuje zdarzenie o podanym indeksie do formatu zgodnego z Google Calendar
+	 * (plik CSV z odpowiednimi nazwami kolumn jako naglowkiem)
+	 * @param id indeks zdarzenia
+	 */
 	public void convertEventToGoogle(Long id) {
 		String result = "Subject,Start Date,Start Time,Description,Location\n";
 		for(Event e : mCalendar.getEventsList()) {
@@ -227,7 +268,10 @@ public class CalendarManager {
 	}
 	
 	
-	//JDBC PART
+	/**
+	 * Importuje obiekty zdarzen z bazy danych
+	 * @throws RepositoryException
+	 */
 	public void importDB() throws RepositoryException
 	{
 		CalendarJdbcRepository repository = new CalendarJdbcRepository(mCalendar);
@@ -237,6 +281,10 @@ public class CalendarManager {
 		System.out.println("imported from DB");
 	}
 	
+	/**
+	 * Eksportuje aktualne obiekty zdarzen do bazy danych
+	 * @throws RepositoryException
+	 */
 	public void exportDB() throws RepositoryException
 	{
 		CalendarJdbcRepository repository = new CalendarJdbcRepository(mCalendar);
@@ -247,7 +295,10 @@ public class CalendarManager {
 	}
 	
 	
-	// XML PART
+	/**
+	 * Importuje obiekty z pliku XML
+	 * @throws RepositoryException
+	 */
 	public void importXML() throws RepositoryException
 	{
 		CalendarXmlRepository repository = new CalendarXmlRepository(mCalendar);
@@ -257,6 +308,10 @@ public class CalendarManager {
 		System.out.println("imported from XML");
 	}
 	
+	/**
+	 * Eksportuje obiekty do pliku XML
+	 * @throws RepositoryException
+	 */
 	public void exportXML() throws RepositoryException
 	{	
 		CalendarXmlRepository repository = new CalendarXmlRepository(mCalendar);
