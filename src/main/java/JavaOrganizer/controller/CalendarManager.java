@@ -1,5 +1,6 @@
 package JavaOrganizer.controller;
 
+import java.awt.Toolkit;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -11,6 +12,9 @@ import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -89,6 +93,16 @@ public class CalendarManager {
 		for(Event ev : mCalendar.getEventsList()) {
 			if (ev.getRemindDate().truncatedTo(ChronoUnit.MINUTES).isEqual(time.truncatedTo(ChronoUnit.MINUTES)) &&
 			    ev.getRemindDate().until(time, ChronoUnit.SECONDS) < 1) {
+				String soundName = "resources/alert.mp3";    
+				try {
+					AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+					Clip clip = AudioSystem.getClip();
+					clip.open(audioInputStream);
+					clip.start();
+				}
+				catch(Exception e1) {}
+				
+				Toolkit.getDefaultToolkit().beep();
 				JOptionPane.showMessageDialog(null, "Masz nadchodzace wydarzenie " + ev.getTitle() +
 						" dnia " + ev.getStartingDate().format(DateTimeFormatter.ISO_LOCAL_DATE) +
 						" o godzinie " + ev.getStartingDate().format(DateTimeFormatter.ISO_LOCAL_TIME));
