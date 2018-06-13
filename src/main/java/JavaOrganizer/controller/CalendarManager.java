@@ -4,8 +4,10 @@ import java.awt.Toolkit;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.nio.channels.ShutdownChannelGroupException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
@@ -41,18 +43,7 @@ public class CalendarManager {
 			instance = new CalendarManager();
 		return instance;
 	}
-	
-	//! Zwraca liste eventow w kalendarzu ktore maja ustawiona taka sama date jak `day`
-	public List<Event> getEventsFromDay(LocalDate day) {
-		List<Event> chosenEvents = new ArrayList<Event>();
-		for(Event ev : mCalendar.getEventsList()) {
-			if(ev.getStartingDate().toLocalDate().isEqual(day)) {
-				chosenEvents.add(ev);
-			}
-		}
-		return chosenEvents;
-	}	
-	
+		
 	//! Metoda statyczna, nie potrzebuje obiektu Calendar do wywolania
 	//! Zwraca ilosc dni w miesiacu na podstawie numeru miesiaca i roku
 	public int getNumberOfDays(int month, int year) {
@@ -95,6 +86,48 @@ public class CalendarManager {
 			}
 		}
 		throw new IndexOutOfBoundsException("Nie znaleziono eventu z podanym ID");
+	}
+	
+	/**
+	 * Zwraca liste eventow w kalendarzu ktore maja ustawiona taka sama date jak `day`
+	 * @param day
+	 * @return lista eventow z danego dnia
+	 */
+	public List<Event> getEventsFromDay(LocalDate day) {
+		List<Event> chosenEvents = new ArrayList<Event>();
+		for(Event ev : mCalendar.getEventsList()) {
+			if(ev.getStartingDate().toLocalDate().isEqual(day)) {
+				chosenEvents.add(ev);
+			}
+		}
+		return chosenEvents;
+	}	
+	
+	/**
+	 * Zwraca liste eventow w kalendarzu z danego dnia wg okreslonego filtru (rano, wieczorem itp.)
+	 * @param day dzien
+	 * @param filterName nazwa filtru (rano, poludnie, wieczorem, wszystkie)
+	 * @return wybrane zdarzenia
+	 */
+	public List<Event> filterEventsFromDay(LocalDate day, final String filterName) {
+		if(filterName.equals("wszystkie")) {
+			return getEventsFromDay(day);
+		}
+		
+		List<Event> filteredEvents = new ArrayList<Event>();
+		for(Event ev : getEventsFromDay(day)) {
+			LocalTime time = ev.getStartingDate().toLocalTime();
+			if(filterName.equals("rano") && time.getHour() >= 0 && time.getHour() < 12) {
+				filteredEvents.add(ev);
+			}
+			else if(filterName.equals("południe") && time.getHour() >= 12 && time.getHour() < 18) {
+				filteredEvents.add(ev);
+			}
+			else if(filterName.equals("wieczorem") && time.getHour() >= 18 && time.getHour() < 24) {
+				filteredEvents.add(ev);
+			}
+		}
+		return filteredEvents;
 	}
 	
 	//// przypomnienia i alarm
