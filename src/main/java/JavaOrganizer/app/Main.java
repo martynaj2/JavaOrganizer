@@ -9,10 +9,6 @@ import java.sql.SQLException;
 
 import JavaOrganizer.view.CalendarWindow;
 
-/**
- * Hello world!
- *
- */
 public class Main 
 {
 	public static void main(String[] args) {
@@ -20,6 +16,10 @@ public class Main
 		setupUI();
 	}
 	
+	/**
+	 * Testuje polaczenie z baza danych,
+	 * w razie niepowodzenia wypisuje komunikat
+	 */
 	private static void testDbConnection() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); // load JDBC driver	
@@ -37,6 +37,9 @@ public class Main
 		}
 	}
 	
+	/**
+	 * Uruchamia aplikacje i interfejs graficzny
+	 */
 	private static void setupUI() {
 		EventQueue.invokeLater(new Runnable(){
 			public void run(){
