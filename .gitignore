@@ -1,3 +1,5 @@
 bin/
 target/
 *.xml
+*.class
+*.class
