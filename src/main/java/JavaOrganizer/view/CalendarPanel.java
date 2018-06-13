@@ -60,7 +60,7 @@ public class CalendarPanel extends JPanel {
 	private void showCalendar() {
 		calendarMonthYearLabel.setBounds(200, 100, 200, 25);
 		JButton prevMonthButton = new JButton("<<<");
-		calendarMonthYearLabel.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+		calendarMonthYearLabel.setFont(new Font("Helvetica", Font.PLAIN, 20));
 		add(calendarMonthYearLabel);
 		
 		prevMonthButton.setBounds(75, 100, 100, 25);
@@ -147,8 +147,7 @@ public class CalendarPanel extends JPanel {
 	//! Wyswietla aktualna date i czas.
 	//! Odwieza zegar automatycznie co 1000ms
 	private void showCurrentDateTime() {
-		currentDateTimeLabel.setBounds(20, 20, 400, 20);
-		currentDateTimeLabel.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+		currentDateTimeLabel.setBounds(35, 20, 400, 20);
 		add(currentDateTimeLabel);
 		
 		ActionListener taskPerformer = new ActionListener() {

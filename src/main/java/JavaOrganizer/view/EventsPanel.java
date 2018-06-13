@@ -1,6 +1,7 @@
 package JavaOrganizer.view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,8 +47,8 @@ public class EventsPanel extends JPanel {
 		
 		eventsScrollPane = new JScrollPane();
 		
-		saveInGoogleFormatButton = new JButton("Save in Google format");
-		saveInGoogleFormatButton.setBounds(135, 480, 160, 25);
+		saveInGoogleFormatButton = new JButton("Eksportuj do formatu Google");
+		saveInGoogleFormatButton.setBounds(250, 480, 200, 25);
 		saveInGoogleFormatButton.setVisible(false);
 		saveInGoogleFormatButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -58,8 +59,8 @@ public class EventsPanel extends JPanel {
         });
 		add(saveInGoogleFormatButton);
 		
-		removeEventButton = new JButton("Remove event");
-		removeEventButton.setBounds(10, 480, 120, 25);
+		removeEventButton = new JButton("Usuń wydarzenie");
+		removeEventButton.setBounds(100, 480, 140, 25);
 		removeEventButton.setVisible(false);
 		removeEventButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -75,7 +76,7 @@ public class EventsPanel extends JPanel {
 		
 		
 		chosenDayLabel.setBounds(10, 10, 200, 25);
-		eventsCountLabel.setBounds(10, 40, 200, 25);
+		eventsCountLabel.setBounds(10, 40, 250, 25);
 		eventsCountLabel.setVerticalAlignment(JLabel.TOP);
 		eventsCountLabel.setVerticalTextPosition(JLabel.TOP);
 		add(chosenDayLabel);
@@ -91,6 +92,7 @@ public class EventsPanel extends JPanel {
 	
 	public void showEventsFromDay(LocalDate day) {
 		currentlyDisplayedDate = day;
+		chosenDayLabel.setFont(new Font("Helvetica", Font.PLAIN, 14));
 		chosenDayLabel.setText(day.toString());
 		System.out.println("Displaying events at " + day.toString());
 		List<Event> events = CalendarManager.getInstance().getEventsFromDay(day);
@@ -98,6 +100,7 @@ public class EventsPanel extends JPanel {
 		repaint();
 		revalidate();
 		if(events.size() == 0) {
+			eventsCountLabel.setFont(new Font("Helvetica", Font.PLAIN, 18));
 			eventsCountLabel.setText("Brak wydarzeń tego dnia.");
 			removeEventButton.setVisible(false);
 			saveInGoogleFormatButton.setVisible(false);
