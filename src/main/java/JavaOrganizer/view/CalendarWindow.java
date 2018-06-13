@@ -1,8 +1,10 @@
 package JavaOrganizer.view;
 
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.time.LocalDate;
 
 import javax.swing.JFrame;
@@ -10,6 +12,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 
 import JavaOrganizer.controller.CalendarManager;
 import JavaOrganizer.exception.RepositoryException;
@@ -198,6 +201,22 @@ public class CalendarWindow extends JFrame
 				newEventDialog.setVisible(true);
 //				eventsPanel.showEventsFromDay(calendarPanel.getCurrentDate());
 			}
-		});	
+		});
+		
+		
+        //! Ustawia nasłuchiwania pod przycisk CTRL_E na nowe zdarzenie
+		KeyStroke ctrlE = KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask());
+
+		
+		mnNewEvent.setAccelerator(ctrlE);
+		mnNewEvent.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent actionEvent) {
+          }
+        });
+		
+		mnEvent.add(mnNewEvent);
+		
+		
 	}
 }
