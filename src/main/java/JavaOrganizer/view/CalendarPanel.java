@@ -3,8 +3,10 @@ package JavaOrganizer.view;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.DayOfWeek;
@@ -14,11 +16,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
@@ -58,8 +64,25 @@ public class CalendarPanel extends JPanel {
 	//! Wyswietla informacje kalendarza
 	//! (aktualny miesiac/rok, przyciski do nawigacji
 	private void showCalendar() {
+		
+		
+		//! Obsługa poprzedniego miesiaca
+		KeyStroke arrowLt = KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask());
+		Action prevMonth = new AbstractAction("<<<") {  
+		    public void actionPerformed(ActionEvent e) {     
+		    	currentCalendarMonth -= 1;
+                if(currentCalendarMonth < 1) {
+                	currentCalendarYear -= 1;
+                	currentCalendarMonth = 12;
+                }
+                showCalendarTiles();
+		    }
+		};
+				
 		calendarMonthYearLabel.setBounds(200, 100, 200, 25);
-		JButton prevMonthButton = new JButton("<<<");
+		JButton prevMonthButton = new JButton(prevMonth);
+		prevMonthButton.getActionMap().put("<<<", prevMonth);
+		prevMonthButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(arrowLt, "<<<");
 		calendarMonthYearLabel.setFont(new Font("Helvetica", Font.PLAIN, 20));
 		add(calendarMonthYearLabel);
 		
@@ -76,8 +99,25 @@ public class CalendarPanel extends JPanel {
             }
         });
 		add(prevMonthButton);
+				 
+
+				
+		//! Obsluga nastepnego miesiaca		 
+		KeyStroke arrowRt = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask());
+		Action nextMonth = new AbstractAction(">>>") {  
+		    public void actionPerformed(ActionEvent e) {     
+		    	currentCalendarMonth += 1;
+                if(currentCalendarMonth > 12) {
+                	currentCalendarYear += 1;
+                	currentCalendarMonth = 1;
+                }
+                showCalendarTiles();
+		    }
+		};	
 		
-		JButton nextMonthButton = new JButton(">>>");
+		JButton nextMonthButton = new JButton(nextMonth);
+		nextMonthButton.getActionMap().put(">>>", nextMonth);
+		nextMonthButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(arrowRt, ">>>");
 		nextMonthButton.setBounds(300, 100, 100, 25);
 		nextMonthButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
