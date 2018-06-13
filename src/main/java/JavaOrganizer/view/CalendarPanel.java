@@ -133,6 +133,20 @@ public class CalendarPanel extends JPanel {
 		add(nextMonthButton);
 	}
 	
+	private void setCurrentDate(LocalDate date) {
+		calendarTiles.get(currentDate.getDayOfMonth()-1).setOpaque(true);
+		calendarTiles.get(currentDate.getDayOfMonth()-1).setBackground(Color.WHITE);
+		
+		calendarTiles.get(LocalDate.now().getDayOfMonth()-1).setOpaque(true);
+		calendarTiles.get(LocalDate.now().getDayOfMonth()-1).setBackground(new Color(116, 196, 237));
+		
+		calendarTiles.get(date.getDayOfMonth()-1).setOpaque(true);
+		calendarTiles.get(date.getDayOfMonth()-1).setBackground(new Color(215, 175, 225));
+		
+		currentDate = date;
+		System.out.println("Current data = " + date);
+	}
+	
 	//! Wyswietla kafelki kalendarza
 	private void showCalendarTiles() {
 		int daysInMonth = calManager.getNumberOfDays(currentCalendarMonth, currentCalendarYear);
@@ -163,16 +177,11 @@ public class CalendarPanel extends JPanel {
 				tile.setBackground(new Color(116, 196, 237));
 				currentDate = calendarDate;
 			}
-			/*else if(calendarDate.isEqual(topFrame.calendarPanel.currentDate)) {
-				tile.setOpaque(true);
-				tile.setBackground(new Color(116, 196, 237));
-				//currentDate = calendarDate;
-			}
-			*/final LocalDate labelDate = calendarDate;
+			final LocalDate labelDate = calendarDate;
 			
 			tile.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
-					topFrame.calendarPanel.currentDate = labelDate;
+					setCurrentDate(labelDate);
 					topFrame.eventsPanel.showEventsFromDay(labelDate);
 				}
 			});
