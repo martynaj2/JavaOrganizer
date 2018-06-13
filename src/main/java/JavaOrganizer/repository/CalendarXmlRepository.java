@@ -46,6 +46,8 @@ public class CalendarXmlRepository implements CalendarRepository{
 			Integer fNumber = new File("xml").listFiles().length;
 			importCalendar = (Calendar)xstream.fromXML( new FileReader("xml\\xml_export_"+ --fNumber +".xml"));
 			
+			mCalendar.clearCalendar();
+			
 			Long maximumEventId = 0L;
 			int eventsImported = 0;
 			

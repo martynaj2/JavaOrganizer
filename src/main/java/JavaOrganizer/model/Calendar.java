@@ -14,6 +14,10 @@ public class Calendar {
 		System.out.println("Utworzono obiekt kalendarza");
 	}
 	
+	public void clearCalendar() {
+		events.clear();
+	}
+	
 	//! Metoda statyczna, nie potrzebuje obiektu Calendar do wywolania
 	//! Zwraca ilosc dni w miesiacu na podstawie numeru miesiaca i roku
 	public static int getNumberOfDays(int month, int year) {

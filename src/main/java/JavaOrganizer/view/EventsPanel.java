@@ -93,7 +93,7 @@ public class EventsPanel extends JPanel {
 		String[] eventFilters = {"wszystkie", "rano", "południe", "wieczorem"};
 		eventFiltersBox = new JComboBox<String>(eventFilters);
 		eventFiltersBox.setSelectedIndex(0);
-		eventFiltersBox.setBounds(410, 40, 100, 25);
+		eventFiltersBox.setBounds(440, 40, 100, 25);
 		eventFiltersBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	String filter = eventFiltersBox.getSelectedItem().toString();
@@ -159,7 +159,7 @@ public class EventsPanel extends JPanel {
 			eventsScrollPane.repaint();
 			eventsScrollPane = new JScrollPane(eventsJList);
 			eventsCountLabel.setText(content);
-			eventsScrollPane.setBounds(10, 70, 500, 300);
+			eventsScrollPane.setBounds(10, 70, 530, 300);
 			add(eventsScrollPane);
 			
 		}

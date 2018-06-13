@@ -34,6 +34,8 @@ public class CalendarJdbcRepository implements CalendarRepository {
 			String sql = "SELECT DISTINCT * FROM events";
 			ResultSet rs = stmt.executeQuery(sql);
 			
+			mCalendar.clearCalendar();
+			
 			Long maximumEventId = 0L;
 			int eventsImported = 0;
 			while(rs.next()) {
@@ -44,13 +46,17 @@ public class CalendarJdbcRepository implements CalendarRepository {
 				LocalDateTime repStartDate = rs.getTimestamp("start_date").toLocalDateTime();
 				LocalDateTime repRemindDate = rs.getTimestamp("remind_date").toLocalDateTime();
 		
-				if(repId > maximumEventId) maximumEventId = repId;
-				
-				System.out.println("Importing event from database");
-				System.out.println("\ttitle: " + repTitle + ", location: " + repLocation + ", start_date: " + repStartDate.toString());
-				
-				++eventsImported;
-				mCalendar.addEvent(new Event(repId,repTitle,repDescription,repLocation,repStartDate,repRemindDate));
+				try {
+					CalendarManager.getInstance().getEventById(repId);
+				}
+				catch(IndexOutOfBoundsException e1) {
+					// wyjatek rzucony - nie znaleziono eventu z takim id, mozemy go dodac
+					if(repId > maximumEventId) maximumEventId = repId;
+					System.out.println("Importing event from database");
+					System.out.println("\ttitle: " + repTitle + ", location: " + repLocation + ", start_date: " + repStartDate.toString());
+					++eventsImported;
+					mCalendar.addEvent(new Event(repId,repTitle,repDescription,repLocation,repStartDate,repRemindDate));
+				}
 			}
 			
 			CalendarManager.nextEventId = maximumEventId + 1;
