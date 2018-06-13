@@ -60,13 +60,17 @@ public class CalendarXmlRepository implements CalendarRepository{
 				LocalDateTime repStartDate = e.getStartingDate();
 				LocalDateTime repRemindDate = e.getRemindDate();
 		
-				if(repId > maximumEventId) maximumEventId = repId;
-				
-				System.out.println("Importing event from database");
-				System.out.println("\ttitle: " + repTitle + ", location: " + repLocation + ", start_date: " + repStartDate.toString());
-				
-				++eventsImported;
-				mCalendar.addEvent(new Event(repId,repTitle,repDescription,repLocation,repStartDate,repRemindDate));
+				try {
+					CalendarManager.getInstance().getEventById(repId);
+				}
+				catch(IndexOutOfBoundsException e1) {
+					// wyjatek rzucony - nie znaleziono eventu z takim id, mozemy go dodac
+					System.out.println("Importing event from XML");
+					System.out.println("\ttitle: " + repTitle + ", location: " + repLocation + ", start_date: " + repStartDate.toString());
+					++eventsImported;
+					mCalendar.addEvent(new Event(repId,repTitle,repDescription,repLocation,repStartDate,repRemindDate));
+					if(repId > maximumEventId) maximumEventId = repId;
+				}
 			}
 			CalendarManager.nextEventId = maximumEventId + 1;
 			System.out.println("Finished importing events, " + eventsImported + " events imported.");
